@@ -32,6 +32,7 @@ Bienvenue dans la documentation complète de **Quiz Musical** ! Cette page vous 
 | Document | Description |
 |----------|-------------|
 | [FAQ.md](FAQ.md) | Questions fréquentes et solutions |
+| [CORRECTIONS_INSTALLATION.md](CORRECTIONS_INSTALLATION.md) | Corrections appliquées au script d'installation |
 | [CONTRIBUTING.md](../CONTRIBUTING.md) | Guide de contribution |
 | [TODO.md](../TODO.md) | Tâches en cours et à venir |
 
