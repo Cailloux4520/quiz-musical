@@ -77,6 +77,11 @@ Le script va :
 - **Compte admin** : `admin@quiz.com` / `admin123`
 - **Fichier de configuration** : `/home/quizapp/quiz-musical-config.txt`
 
+> 💡 **Note** : Si le fichier de configuration n'a pas été créé automatiquement, vous pouvez le générer avec :
+> ```bash
+> sudo /home/quizapp/quiz-musical/scripts/generate-config.sh
+> ```
+
 ## 🎯 Exemple Complet
 
 ```bash
@@ -218,7 +223,7 @@ docker-compose restart minio
 
 1. Vérifiez que vous êtes bien root : `whoami`
 2. Vérifiez la connexion internet : `ping google.com`
-3. Vérifiez que le domaine pointe bien vers le VPS : `nslookup votre-domaine.com`
+3. Vérifiez que le domaine pointe bien vers le VPS : `nslookup recalbox.live`
 
 ### L'application ne démarre pas
 
@@ -242,7 +247,7 @@ Si Certbot échoue :
 
 1. Vérifiez que votre domaine pointe vers le VPS
 2. Attendez quelques minutes (propagation DNS)
-3. Relancez : `sudo certbot --nginx -d votre-domaine.com`
+3. Relancez : `sudo certbot --nginx -d recalbox.live`
 
 ### Base de données inaccessible
 

@@ -130,6 +130,28 @@ Guides détaillés :
 - [ ] Marketplace de quiz publics
 - [ ] API publique
 
+## 🛠️ Scripts de Maintenance
+
+Scripts disponibles pour gérer l'application en production :
+
+### Mise à jour de l'application
+```bash
+sudo /home/quizapp/quiz-musical/scripts/update-app.sh
+```
+Pull les dernières modifications depuis GitHub, installe les dépendances, rebuild le frontend et redémarre le backend.
+
+### Génération du fichier de configuration
+```bash
+sudo /home/quizapp/quiz-musical/scripts/generate-config.sh
+```
+Crée `/home/quizapp/quiz-musical-config.txt` avec toutes les informations de configuration, credentials et commandes utiles.
+
+### Sauvegarde
+```bash
+/home/quizapp/quiz-musical/scripts/backup.sh
+```
+Sauvegarde complète de la base de données, fichiers MinIO et configuration.
+
 ## 🤝 Contribution
 
 Les contributions sont les bienvenues ! Consultez [CONTRIBUTING.md](./CONTRIBUTING.md) pour les guidelines.
