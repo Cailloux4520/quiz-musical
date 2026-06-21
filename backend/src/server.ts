@@ -26,8 +26,8 @@ app.get('/health', (req, res) => {
 
 // Routes API
 app.use('/api/auth', authRoutes);
-app.use('/api/quiz', quizRoutes);
-app.use('/api/session', sessionRoutes);
+app.use('/api/quizzes', quizRoutes);
+app.use('/api/sessions', sessionRoutes);
 
 // Error handler (doit être à la fin)
 app.use(errorHandler);
