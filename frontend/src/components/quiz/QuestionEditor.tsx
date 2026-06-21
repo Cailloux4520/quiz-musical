@@ -17,7 +17,8 @@ export const QUESTION_TYPES = [
   { value: 'audio_qcm', label: 'QCM Audio', icon: Music, description: 'QCM avec un extrait audio' },
   { value: 'blind_test', label: 'Blind Test', icon: Music, description: 'Deviner artiste et/ou titre' },
   { value: 'album_cover', label: 'Pochette d\'Album', icon: ImageIcon, description: 'Deviner depuis une pochette' },
-  { value: 'youtube', label: 'Vidéo YouTube', icon: Video, description: 'Question avec vidéo YouTube' },
+  { value: 'youtube_qcm', label: 'YouTube QCM', icon: Video, description: 'Vidéo YouTube avec QCM' },
+  { value: 'youtube_free', label: 'YouTube Texte Libre', icon: Video, description: 'Vidéo YouTube avec réponse libre' },
 ];
 
 export interface Question {
@@ -147,8 +148,49 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
       case 'text_qcm':
       case 'image_qcm':
       case 'audio_qcm':
+      case 'youtube_qcm':
         return (
           <div className="space-y-3">
+            {question.type === 'youtube_qcm' && (
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-200">URL YouTube</label>
+                <Input
+                  value={question.youtubeUrl || ''}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { youtubeUrl: e.target.value })}
+                  placeholder="https://www.youtube.com/watch?v=..."
+                  required
+                />
+                <div className="grid grid-cols-2 gap-2 mt-2">
+                  <Input
+                    type="number"
+                    label="Début (secondes)"
+                    value={question.startTime || 0}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { startTime: parseInt(e.target.value) })}
+                    min={0}
+                  />
+                  <Input
+                    type="number"
+                    label="Fin (secondes)"
+                    value={question.endTime || 30}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { endTime: parseInt(e.target.value) })}
+                    min={question.startTime || 0}
+                  />
+                </div>
+                <div className="flex items-center gap-2 mt-2">
+                  <input
+                    type="checkbox"
+                    id={`show-video-${index}`}
+                    checked={question.showVideoAfterAnswer || false}
+                    onChange={(e) => updateQuestion(index, { showVideoAfterAnswer: e.target.checked })}
+                    className="w-4 h-4"
+                  />
+                  <label htmlFor={`show-video-${index}`} className="text-sm text-gray-200">
+                    Afficher la vidéo complète après la réponse
+                  </label>
+                </div>
+              </div>
+            )}
+
             {question.type === 'image_qcm' && (
               <div>
                 <label className="block text-sm font-medium mb-2 text-gray-200">Image</label>
@@ -231,8 +273,49 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
       case 'text_free':
       case 'blind_test':
       case 'album_cover':
+      case 'youtube_free':
         return (
           <div className="space-y-3">
+            {question.type === 'youtube_free' && (
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-200">URL YouTube</label>
+                <Input
+                  value={question.youtubeUrl || ''}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { youtubeUrl: e.target.value })}
+                  placeholder="https://www.youtube.com/watch?v=..."
+                  required
+                />
+                <div className="grid grid-cols-2 gap-2 mt-2">
+                  <Input
+                    type="number"
+                    label="Début (secondes)"
+                    value={question.startTime || 0}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { startTime: parseInt(e.target.value) })}
+                    min={0}
+                  />
+                  <Input
+                    type="number"
+                    label="Fin (secondes)"
+                    value={question.endTime || 30}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { endTime: parseInt(e.target.value) })}
+                    min={question.startTime || 0}
+                  />
+                </div>
+                <div className="flex items-center gap-2 mt-2">
+                  <input
+                    type="checkbox"
+                    id={`show-video-${index}`}
+                    checked={question.showVideoAfterAnswer || false}
+                    onChange={(e) => updateQuestion(index, { showVideoAfterAnswer: e.target.checked })}
+                    className="w-4 h-4"
+                  />
+                  <label htmlFor={`show-video-${index}`} className="text-sm text-gray-200">
+                    Afficher la vidéo complète après la réponse
+                  </label>
+                </div>
+              </div>
+            )}
+
             {question.type === 'album_cover' && (
               <div>
                 <label className="block text-sm font-medium mb-2 text-gray-200">Pochette d'Album</label>
@@ -360,47 +443,6 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
               />
               <label htmlFor={`case-sensitive-${index}`} className="text-sm text-gray-200">
                 Sensible à la casse
-              </label>
-            </div>
-          </div>
-        );
-
-      case 'youtube':
-        return (
-          <div className="space-y-3">
-            <Input
-              label="URL YouTube"
-              value={question.youtubeUrl || ''}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { youtubeUrl: e.target.value })}
-              placeholder="https://www.youtube.com/watch?v=..."
-              required
-            />
-            <div className="grid grid-cols-2 gap-2">
-              <Input
-                type="number"
-                label="Début (secondes)"
-                value={question.startTime || 0}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { startTime: parseInt(e.target.value) })}
-                min={0}
-              />
-              <Input
-                type="number"
-                label="Fin (secondes)"
-                value={question.endTime || 30}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { endTime: parseInt(e.target.value) })}
-                min={question.startTime || 0}
-              />
-            </div>
-            <div className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                id={`show-video-${index}`}
-                checked={question.showVideoAfterAnswer || false}
-                onChange={(e) => updateQuestion(index, { showVideoAfterAnswer: e.target.checked })}
-                className="w-4 h-4"
-              />
-              <label htmlFor={`show-video-${index}`} className="text-sm text-gray-200">
-                Afficher la vidéo complète après la réponse
               </label>
             </div>
           </div>
