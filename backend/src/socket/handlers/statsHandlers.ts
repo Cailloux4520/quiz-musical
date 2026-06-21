@@ -162,7 +162,7 @@ export const handleQuestionStart = async (
     const questionData = {
       id: question.id,
       type: question.type,
-      question: question.question,
+      question: question.content,
       choices: question.choices,
       timeLimit: question.timeLimit,
       audioUrl: question.audioUrl,

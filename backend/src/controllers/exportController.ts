@@ -301,7 +301,7 @@ const generatePDFTemplate = (sessionData: any): string => {
             return `
           <tr>
             <td>${index + 1}</td>
-            <td>${question.question}</td>
+            <td>${question.content}</td>
             <td>${question.type}</td>
             <td>${correctAnswers} / ${answers.length}</td>
             <td style="color: ${successRate >= 50 ? '#10b981' : '#ef4444'};">
@@ -603,7 +603,7 @@ export const exportSessionToExcel = async (req: AuthRequest, res: Response) => {
 
       questionsSheet.addRow({
         number: index + 1,
-        question: question.question,
+        question: question.content,
         type: question.type,
         correctAnswer: question.choices[question.correctIndex],
         totalAnswers: answers.length,
