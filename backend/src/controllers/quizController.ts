@@ -71,7 +71,7 @@ export const getQuizById = async (req: AuthRequest, res: Response) => {
 };
 
 export const createQuiz = async (req: AuthRequest, res: Response) => {
-  const { title, description, theme } = req.body;
+  const { title, description, theme, questions = [] } = req.body;
 
   const quiz = await prisma.quiz.create({
     data: {
@@ -82,12 +82,38 @@ export const createQuiz = async (req: AuthRequest, res: Response) => {
     },
   });
 
+  // Créer les questions si fournies
+  if (questions.length > 0) {
+    await prisma.question.createMany({
+      data: questions.map((q: any, index: number) => ({
+        quizId: quiz.id,
+        order: q.order !== undefined ? q.order : index,
+        type: q.type,
+        content: q.question,
+        audioUrl: q.audioUrl || null,
+        imageUrl: q.imageUrl || null,
+        youtubeUrl: q.youtubeUrl || null,
+        startTime: q.startTime || null,
+        endTime: q.endTime || null,
+        duration: q.duration || null,
+        choices: q.options || [],
+        correctIndex: q.type.includes('qcm') ? parseInt(q.correctAnswer || '0') : 0,
+        correctAnswer: q.type.includes('free') || q.type === 'blind_test' || q.type === 'album_cover' ? q.correctAnswer : null,
+        acceptedAnswers: q.acceptedAnswers || [],
+        caseSensitive: q.caseSensitive || false,
+        timeLimit: q.timeLimit || 30,
+        points: q.points || 1000,
+        showVideoAfterAnswer: q.showVideoAfterAnswer || false,
+      })),
+    });
+  }
+
   res.status(201).json({ quiz });
 };
 
 export const updateQuiz = async (req: AuthRequest, res: Response) => {
   const { id } = req.params;
-  const { title, description, theme } = req.body;
+  const { title, description, theme, questions } = req.body;
 
   const quiz = await prisma.quiz.findFirst({
     where: {
@@ -108,6 +134,40 @@ export const updateQuiz = async (req: AuthRequest, res: Response) => {
       theme,
     },
   });
+
+  // Mettre à jour les questions si fournies
+  if (questions !== undefined) {
+    // Supprimer toutes les anciennes questions
+    await prisma.question.deleteMany({
+      where: { quizId: id },
+    });
+
+    // Créer les nouvelles questions
+    if (questions.length > 0) {
+      await prisma.question.createMany({
+        data: questions.map((q: any, index: number) => ({
+          quizId: id,
+          order: q.order !== undefined ? q.order : index,
+          type: q.type,
+          content: q.question,
+          audioUrl: q.audioUrl || null,
+          imageUrl: q.imageUrl || null,
+          youtubeUrl: q.youtubeUrl || null,
+          startTime: q.startTime || null,
+          endTime: q.endTime || null,
+          duration: q.duration || null,
+          choices: q.options || [],
+          correctIndex: q.type.includes('qcm') ? parseInt(q.correctAnswer || '0') : 0,
+          correctAnswer: q.type.includes('free') || q.type === 'blind_test' || q.type === 'album_cover' ? q.correctAnswer : null,
+          acceptedAnswers: q.acceptedAnswers || [],
+          caseSensitive: q.caseSensitive || false,
+          timeLimit: q.timeLimit || 30,
+          points: q.points || 1000,
+          showVideoAfterAnswer: q.showVideoAfterAnswer || false,
+        })),
+      });
+    }
+  }
 
   res.json({ quiz: updatedQuiz });
 };
