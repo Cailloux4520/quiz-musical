@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { minioClient, MINIO_BUCKET } from '../services/minio';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 import { getAudioDuration } from '../utils/audioUtils';
 
 const prisma = new PrismaClient();
@@ -32,7 +32,7 @@ export const uploadMedia = async (req: Request, res: Response) => {
     const format = extension;
 
     // Générer nom unique
-    const uniqueFilename = `${uuidv4()}.${extension}`;
+    const uniqueFilename = `${randomUUID()}.${extension}`;
     const folder = type === 'audio' ? 'audio' : 'images';
     const filepath = `${folder}/${uniqueFilename}`;
 
