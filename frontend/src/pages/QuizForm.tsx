@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Card } from '../components/common/Card';
 import { Input } from '../components/common/Input';
 import { Button } from '../components/common/Button';
+import { QuestionEditor, Question } from '../components/quiz/QuestionEditor';
 import api from '../services/api';
 
 // Thèmes disponibles avec icônes et fonds d'écran
@@ -76,6 +77,7 @@ export const QuizForm: React.FC = () => {
     description: '',
     theme: 'annees80',
   });
+  const [questions, setQuestions] = useState<Question[]>([]);
 
   useEffect(() => {
     if (isEdit) {
@@ -92,6 +94,11 @@ export const QuizForm: React.FC = () => {
         description: quiz.description || '',
         theme: quiz.theme,
       });
+      
+      // Charger les questions
+      if (quiz.questions && quiz.questions.length > 0) {
+        setQuestions(quiz.questions);
+      }
     } catch (error) {
       console.error('Erreur chargement quiz:', error);
       alert('Erreur lors du chargement du quiz');
@@ -103,11 +110,19 @@ export const QuizForm: React.FC = () => {
     setLoading(true);
 
     try {
+      const payload = {
+        ...formData,
+        questions: questions.map((q, index) => ({
+          ...q,
+          order: index,
+        })),
+      };
+
       if (isEdit) {
-        await api.put(`/quiz/${id}`, formData);
+        await api.put(`/quiz/${id}`, payload);
         alert('Quiz modifié avec succès !');
       } else {
-        await api.post('/quiz', formData);
+        await api.post('/quiz', payload);
         alert('Quiz créé avec succès !');
       }
       navigate('/admin');
@@ -204,6 +219,11 @@ export const QuizForm: React.FC = () => {
               </div>
             </div>
 
+            {/* Éditeur de questions */}
+            <div className="pt-6 border-t dark:border-gray-700">
+              <QuestionEditor questions={questions} onQuestionsChange={setQuestions} />
+            </div>
+
             <div className="flex gap-4 pt-4">
               <Button type="submit" disabled={loading} className="flex-1">
                 {loading ? 'Enregistrement...' : isEdit ? 'Modifier' : 'Créer'}
@@ -218,14 +238,6 @@ export const QuizForm: React.FC = () => {
               </Button>
             </div>
           </form>
-
-          {isEdit && (
-            <div className="mt-6 pt-6 border-t dark:border-gray-700">
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                Pour ajouter des questions à ce quiz, utilisez l'API ou créez une interface d'édition de questions.
-              </p>
-            </div>
-          )}
         </Card>
       </div>
     </div>

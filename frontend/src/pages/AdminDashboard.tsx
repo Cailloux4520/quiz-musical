@@ -67,9 +67,14 @@ export const AdminDashboard: React.FC = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-3xl font-bold">Mes Quiz</h2>
-          <Button onClick={() => navigate('/admin/quiz/new')}>
-            + Nouveau Quiz
-          </Button>
+          <div className="flex gap-3">
+            <Button variant="secondary" onClick={() => navigate('/admin/media')}>
+              📁 Médiathèque
+            </Button>
+            <Button onClick={() => navigate('/admin/quiz/new')}>
+              + Nouveau Quiz
+            </Button>
+          </div>
         </div>
 
         {loading ? (

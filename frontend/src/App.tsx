@@ -10,6 +10,7 @@ import { QuizForm } from './pages/QuizForm';
 import { CreateSession } from './pages/CreateSession';
 import { MasterGame } from './pages/MasterGame';
 import { PlayerGame } from './pages/PlayerGame';
+import { MediaLibrary } from './pages/MediaLibrary';
 
 // Composant pour protéger les routes admin
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -61,6 +62,16 @@ function App() {
           element={
             <ProtectedRoute>
               <QuizForm />
+            </ProtectedRoute>
+          }
+        />
+        
+        {/* Médiathèque (protégé) */}
+        <Route
+          path="/admin/media"
+          element={
+            <ProtectedRoute>
+              <MediaLibrary />
             </ProtectedRoute>
           }
         />
