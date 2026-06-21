@@ -11,6 +11,7 @@ import { CreateSession } from './pages/CreateSession';
 import { MasterGame } from './pages/MasterGame';
 import { PlayerGame } from './pages/PlayerGame';
 import { MediaLibrary } from './pages/MediaLibrary';
+import { ResultsPage } from './pages/ResultsPage';
 
 // Composant pour protéger les routes admin
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -102,6 +103,9 @@ function App() {
         
         {/* Écran de jeu pour les joueurs */}
         <Route path="/play/:inviteCode" element={<PlayerGame />} />
+        
+        {/* Page de résultats */}
+        <Route path="/results/:sessionId" element={<ResultsPage />} />
         
         {/* Redirection par défaut */}
         <Route path="*" element={<Navigate to="/" replace />} />

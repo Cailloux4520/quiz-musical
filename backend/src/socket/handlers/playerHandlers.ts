@@ -1,6 +1,6 @@
 import { Socket } from 'socket.io';
 import prisma from '../../utils/prisma';
-import { calculateScore } from '../../services/scoreService';
+import { calculateScoreWithValidation } from '../../services/scoreService';
 import { broadcastAnswerStats } from './statsHandlers';
 
 export const handlePlayerJoin = async (
@@ -65,10 +65,13 @@ export const handleAnswerSubmit = async (
     // Vérifier si la réponse est correcte
     const isCorrect = choiceIndex === question.correctIndex;
 
-    // Calculer les points
-    const pointsEarned = isCorrect
-      ? calculateScore(question.points, timeElapsed, question.timeLimit)
-      : 0;
+    // Calculer les points avec validation anti-triche
+    const pointsEarned = calculateScoreWithValidation(
+      isCorrect,
+      question.points,
+      timeElapsed,
+      question.timeLimit
+    );
 
     // Enregistrer la réponse
     const answer = await prisma.answer.create({

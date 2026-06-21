@@ -22,6 +22,7 @@ import {
   handleQuestionStart,
   handleQuestionEnd,
 } from './handlers/statsHandlers';
+import { handleGetSessionResults } from './handlers/resultsHandlers';
 
 export const initializeSocketServer = (httpServer: HTTPServer) => {
   const io = new Server(httpServer, {
@@ -52,6 +53,7 @@ export const initializeSocketServer = (httpServer: HTTPServer) => {
     socket.on('question:start', (data) => handleQuestionStart(socket, data));
     socket.on('question:end', (data) => handleQuestionEnd(socket, data));
     socket.on('results:show', (data) => handleShowResults(socket, data));
+    socket.on('session:results', (data) => handleGetSessionResults(socket, data));
 
     // Déconnexion
     socket.on('disconnect', () => {

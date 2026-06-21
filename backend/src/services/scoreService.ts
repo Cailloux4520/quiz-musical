@@ -21,3 +21,53 @@ export const calculateScore = (
   
   return Math.max(points, minPoints);
 };
+
+/**
+ * Valide le temps de réponse pour détecter la triche
+ * Retourne true si le temps est valide, false sinon
+ */
+export const validateResponseTime = (
+  responseTime: number,
+  timeLimit: number
+): boolean => {
+  // Le temps ne peut pas être négatif
+  if (responseTime < 0) {
+    return false;
+  }
+
+  // Le temps ne peut pas dépasser le temps limite + 2 secondes de marge
+  if (responseTime > (timeLimit * 1000) + 2000) {
+    return false;
+  }
+
+  // Le temps ne peut pas être trop rapide (moins de 200ms = bot probable)
+  if (responseTime < 200) {
+    return false;
+  }
+
+  return true;
+};
+
+/**
+ * Calcule les points avec validation anti-triche
+ * Retourne 0 si le temps est invalide
+ */
+export const calculateScoreWithValidation = (
+  isCorrect: boolean,
+  basePoints: number,
+  responseTime: number,
+  timeLimit: number
+): number => {
+  // Si mauvaise réponse, 0 points
+  if (!isCorrect) {
+    return 0;
+  }
+
+  // Valider le temps de réponse
+  if (!validateResponseTime(responseTime, timeLimit)) {
+    console.warn(`Temps de réponse invalide: ${responseTime}ms (limite: ${timeLimit}s)`);
+    return 0;
+  }
+
+  return calculateScore(basePoints, responseTime, timeLimit);
+};

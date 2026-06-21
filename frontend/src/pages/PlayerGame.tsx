@@ -148,7 +148,11 @@ export const PlayerGame: React.FC = () => {
       setPhase('results');
     });
 
-    socket.on('session:finished', () => {
+    socket.on('session:finished', (data: { sessionId: string }) => {
+      // Rediriger vers la page de résultats
+      setTimeout(() => {
+        navigate(`/results/${data.sessionId || sessionId}`);
+      }, 2000); // 2 secondes de délai pour voir le message de fin
       setPhase('finished');
     });
 
