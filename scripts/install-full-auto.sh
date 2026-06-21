@@ -231,6 +231,12 @@ print_info "Clonage de $GIT_REPO..."
 su - $APP_USER -c "git clone -b $GIT_BRANCH $GIT_REPO $INSTALL_DIR"
 print_success "Repository cloné"
 
+# Correction 6 : Configurer Git pour éviter les erreurs de propriété
+print_info "Configuration Git..."
+git config --global --add safe.directory "$INSTALL_DIR"
+su - $APP_USER -c "git config --global --add safe.directory $INSTALL_DIR"
+print_success "Git configuré"
+
 # ============================================================================
 # CONFIGURATION DES FICHIERS .ENV
 # ============================================================================
@@ -326,6 +332,47 @@ print_info "Installation des dépendances..."
 su - $APP_USER -c "cd $INSTALL_DIR/backend && npm install"
 print_success "Dépendances installées"
 
+# Correction 1 : Vérifier et ajouter le script "seed" dans package.json si manquant
+print_info "Vérification du script seed..."
+if ! su - $APP_USER -c "cd $INSTALL_DIR/backend && npm run seed --silent 2>&1" | grep -q "Missing script"; then
+    print_success "Script seed disponible"
+else
+    print_warning "Ajout du script seed manquant..."
+    su - $APP_USER -c "cd $INSTALL_DIR/backend && npm pkg set scripts.seed='tsx prisma/seed.ts'"
+fi
+
+# Correction 2 : Modifier tsconfig.json pour exclure le dossier prisma/
+print_info "Configuration TypeScript pour exclure prisma/..."
+su - $APP_USER -c "cat > $INSTALL_DIR/backend/tsconfig.json" <<'TSCONFIG'
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "lib": ["ES2020"],
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "removeComments": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "prisma"]
+}
+TSCONFIG
+chown $APP_USER:$APP_USER "$INSTALL_DIR/backend/tsconfig.json"
+print_success "TypeScript configuré"
+
 print_info "Génération du client Prisma..."
 su - $APP_USER -c "cd $INSTALL_DIR/backend && npm run prisma:generate"
 print_success "Client Prisma généré"
@@ -335,7 +382,7 @@ su - $APP_USER -c "cd $INSTALL_DIR/backend && npx prisma db push --accept-data-l
 print_success "Schéma appliqué"
 
 print_info "Initialisation de la base de données..."
-su - $APP_USER -c "cd $INSTALL_DIR/backend && npm run prisma:seed"
+su - $APP_USER -c "cd $INSTALL_DIR/backend && npm run seed"
 print_success "Base de données initialisée"
 
 print_info "Build du backend..."
@@ -354,9 +401,56 @@ print_info "Installation des dépendances..."
 su - $APP_USER -c "cd $INSTALL_DIR/frontend && npm install"
 print_success "Dépendances installées"
 
+# Correction 3 : Créer le fichier vite-env.d.ts pour les types TypeScript
+print_info "Configuration des types TypeScript pour Vite..."
+su - $APP_USER -c "cat > $INSTALL_DIR/frontend/src/vite-env.d.ts" <<'VITEENV'
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+  readonly VITE_API_URL: string
+  readonly VITE_WS_URL: string
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}
+VITEENV
+chown $APP_USER:$APP_USER "$INSTALL_DIR/frontend/src/vite-env.d.ts"
+print_success "Types TypeScript configurés"
+
+# Correction 4 : Convertir postcss.config.js en ES module si nécessaire
+print_info "Vérification de la configuration PostCSS..."
+if [ -f "$INSTALL_DIR/frontend/postcss.config.js" ]; then
+    if grep -q "module.exports" "$INSTALL_DIR/frontend/postcss.config.js"; then
+        print_warning "Conversion de postcss.config.js en ES module..."
+        su - $APP_USER -c "cat > $INSTALL_DIR/frontend/postcss.config.js" <<'POSTCSS'
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+POSTCSS
+        chown $APP_USER:$APP_USER "$INSTALL_DIR/frontend/postcss.config.js"
+        print_success "PostCSS converti en ES module"
+    else
+        print_success "PostCSS déjà en ES module"
+    fi
+fi
+
 print_info "Build du frontend..."
 su - $APP_USER -c "cd $INSTALL_DIR/frontend && npm run build"
 print_success "Frontend compilé"
+
+# Correction 5 : Fixer les permissions pour Nginx
+print_info "Configuration des permissions pour Nginx..."
+chmod 755 /home/$APP_USER
+chmod 755 "$INSTALL_DIR"
+chmod 755 "$INSTALL_DIR/frontend"
+chmod 755 "$INSTALL_DIR/frontend/dist"
+find "$INSTALL_DIR/frontend/dist" -type d -exec chmod 755 {} \;
+find "$INSTALL_DIR/frontend/dist" -type f -exec chmod 644 {} \;
+print_success "Permissions configurées"
 
 # ============================================================================
 # CONFIGURATION PM2
@@ -370,6 +464,11 @@ su - $APP_USER -c "cd $INSTALL_DIR/backend && pm2 delete quiz-backend 2>/dev/nul
 print_info "Configuration du démarrage automatique..."
 env PATH=$PATH:/usr/bin pm2 startup systemd -u $APP_USER --hp /home/$APP_USER
 su - $APP_USER -c "pm2 save"
+
+# Activer le service systemd
+print_info "Activation du service PM2..."
+systemctl enable pm2-$APP_USER
+print_success "Service PM2 activé"
 
 print_success "PM2 configuré"
 
@@ -510,64 +609,109 @@ print_header "📝 Sauvegarde de la configuration"
 CONFIG_FILE="/home/$APP_USER/quiz-musical-config.txt"
 
 cat > "$CONFIG_FILE" <<EOF
-====================================
-CONFIGURATION QUIZ MUSICAL
-====================================
+================================================================================
+QUIZ MUSICAL - CONFIGURATION
+================================================================================
+Date d'installation : $(date '+%Y-%m-%d %H:%M:%S')
+Domaine : $DOMAIN_NAME
+URL : https://$DOMAIN_NAME
 
-Installation réalisée le : $(date)
+================================================================================
+COMPTE ADMINISTRATEUR
+================================================================================
+Email : admin@quiz.com
+Mot de passe : admin123
+⚠️  IMPORTANT : Changez ce mot de passe immédiatement après la première connexion !
 
-INFORMATIONS GÉNÉRALES
-----------------------
-Domaine          : https://$DOMAIN_NAME
-Email SSL        : $SSL_EMAIL
-Repository Git   : $GIT_REPO
-Branche          : $GIT_BRANCH
-Utilisateur      : $APP_USER
-Répertoire       : $INSTALL_DIR
+================================================================================
+BASE DE DONNÉES POSTGRESQL
+================================================================================
+Utilisateur : quizuser
+Mot de passe : $DB_PASSWORD
+Base de données : quizmusical
+Port : 5432
 
-CLÉS DE SÉCURITÉ (⚠️ CONFIDENTIEL)
-----------------------------------
-JWT_SECRET       : $JWT_SECRET
-DB_PASSWORD      : $DB_PASSWORD
-MINIO_ACCESS_KEY : $MINIO_ACCESS_KEY
-MINIO_SECRET_KEY : $MINIO_SECRET_KEY
-REDIS_PASSWORD   : $REDIS_PASSWORD
+Connexion directe :
+docker exec -it quiz-musical-db psql -U quizuser -d quizmusical
 
-ACCÈS À L'APPLICATION
----------------------
-URL              : https://$DOMAIN_NAME
-Admin Email      : admin@quiz.com
-Admin Password   : admin123
+================================================================================
+REDIS
+================================================================================
+Mot de passe : $REDIS_PASSWORD
+Port : 6379
 
-⚠️  IMPORTANT : Changez le mot de passe admin dès votre première connexion !
+================================================================================
+MINIO (Stockage de fichiers)
+================================================================================
+Access Key : $MINIO_ACCESS_KEY
+Secret Key : $MINIO_SECRET_KEY
+Port : 9000
+Console : 9001
+Bucket : quiz-media
 
-SERVICES INSTALLÉS
-------------------
-- Backend        : PM2 (port 3000)
-- Frontend       : Nginx (https://$DOMAIN_NAME)
-- PostgreSQL     : Docker (port 5432)
-- MinIO          : Docker (port 9000, console 9001)
-- Redis          : Docker (port 6379)
+URL Console : http://VOTRE_IP:9001
+⚠️  Utilisez un tunnel SSH pour accéder à la console en sécurité
 
+================================================================================
+JWT SECRET
+================================================================================
+$JWT_SECRET
+
+================================================================================
+CERTIFICAT SSL
+================================================================================
+Certificat : /etc/letsencrypt/live/$DOMAIN_NAME/fullchain.pem
+Clé privée : /etc/letsencrypt/live/$DOMAIN_NAME/privkey.pem
+Renouvellement : Automatique
+
+================================================================================
+FICHIERS DE CONFIGURATION
+================================================================================
+Backend .env : $INSTALL_DIR/backend/.env
+Frontend .env : $INSTALL_DIR/frontend/.env
+Nginx : /etc/nginx/sites-available/quiz-musical
+Docker Compose : $INSTALL_DIR/$COMPOSE_FILE
+
+================================================================================
 COMMANDES UTILES
-----------------
-Logs backend     : pm2 logs quiz-backend
-Status PM2       : pm2 status
-Logs Docker      : docker-compose -f $INSTALL_DIR/$COMPOSE_FILE logs -f
-Logs Nginx       : sudo tail -f /var/log/nginx/error.log
-Redémarrer       : pm2 restart quiz-backend
-Mise à jour      : $INSTALL_DIR/scripts/update.sh
-Backup manuel    : $INSTALL_DIR/scripts/backup.sh
+================================================================================
+# Gérer le backend
+pm2 status
+pm2 logs quiz-backend
+pm2 restart quiz-backend
 
+# Gérer Docker
+docker ps
+docker-compose -f $INSTALL_DIR/$COMPOSE_FILE logs
+docker-compose -f $INSTALL_DIR/$COMPOSE_FILE restart
+
+# Nginx
+systemctl status nginx
+systemctl restart nginx
+nginx -t
+
+# Sauvegardes
+$INSTALL_DIR/scripts/backup.sh
+
+# Mises à jour
+$INSTALL_DIR/scripts/update.sh
+
+================================================================================
 SAUVEGARDES
------------
-Répertoire       : /home/$APP_USER/backups
-Automatique      : Tous les jours à 2h du matin
-Rétention        : 7 jours
+================================================================================
+Emplacement : /home/$APP_USER/backups/
+Fréquence : Tous les jours à 2h00
+Rétention : 7 jours
 
-====================================
-⚠️  CONSERVEZ CE FICHIER EN LIEU SÛR
-====================================
+================================================================================
+⚠️  IMPORTANT - SÉCURITÉ
+================================================================================
+1. Changez IMMÉDIATEMENT le mot de passe admin
+2. Gardez ce fichier en lieu sûr et HORS du serveur
+3. Ne partagez JAMAIS ces clés
+4. Faites des sauvegardes régulières
+
+================================================================================
 EOF
 
 chown $APP_USER:$APP_USER "$CONFIG_FILE"
