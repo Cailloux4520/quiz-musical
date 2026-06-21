@@ -6,6 +6,10 @@ import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { PlayerJoinPage } from './pages/PlayerJoinPage';
+import { QuizForm } from './pages/QuizForm';
+import { CreateSession } from './pages/CreateSession';
+import { MasterGame } from './pages/MasterGame';
+import { PlayerGame } from './pages/PlayerGame';
 
 // Composant pour protéger les routes admin
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -45,9 +49,52 @@ function App() {
           }
         />
         
+        {/* Créer un nouveau quiz (protégé) */}
+        <Route
+          path="/admin/quiz/new"
+          element={
+            <ProtectedRoute>
+              <QuizForm />
+            </ProtectedRoute>
+          }
+        />
+        
+        {/* Éditer un quiz (protégé) */}
+        <Route
+          path="/admin/quiz/:id"
+          element={
+            <ProtectedRoute>
+              <QuizForm />
+            </ProtectedRoute>
+          }
+        />
+        
+        {/* Créer une session (protégé) */}
+        <Route
+          path="/admin/session/new/:quizId"
+          element={
+            <ProtectedRoute>
+              <CreateSession />
+            </ProtectedRoute>
+          }
+        />
+        
+        {/* Écran maître de jeu (protégé) */}
+        <Route
+          path="/master/:sessionId"
+          element={
+            <ProtectedRoute>
+              <MasterGame />
+            </ProtectedRoute>
+          }
+        />
+        
         {/* Page de rejoindre une partie */}
         <Route path="/join" element={<PlayerJoinPage />} />
         <Route path="/join/:inviteCode" element={<PlayerJoinPage />} />
+        
+        {/* Écran de jeu pour les joueurs */}
+        <Route path="/play/:inviteCode" element={<PlayerGame />} />
         
         {/* Redirection par défaut */}
         <Route path="*" element={<Navigate to="/" replace />} />
