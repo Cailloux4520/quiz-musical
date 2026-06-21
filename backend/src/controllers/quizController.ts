@@ -1,0 +1,227 @@
+import { Response } from 'express';
+import prisma from '../utils/prisma';
+import { AuthRequest } from '../middleware/auth';
+
+export const getQuizzes = async (req: AuthRequest, res: Response) => {
+  const { search, theme, sortBy = 'createdAt', order = 'desc' } = req.query;
+
+  const where: any = {
+    userId: req.user!.userId,
+  };
+
+  if (search) {
+    where.title = {
+      contains: search as string,
+      mode: 'insensitive',
+    };
+  }
+
+  if (theme) {
+    where.theme = theme;
+  }
+
+  const quizzes = await prisma.quiz.findMany({
+    where,
+    include: {
+      _count: {
+        select: { questions: true },
+      },
+    },
+    orderBy: {
+      [sortBy as string]: order,
+    },
+  });
+
+  res.json({
+    quizzes: quizzes.map((quiz) => ({
+      id: quiz.id,
+      title: quiz.title,
+      description: quiz.description,
+      theme: quiz.theme,
+      questionsCount: quiz._count.questions,
+      createdAt: quiz.createdAt,
+      updatedAt: quiz.updatedAt,
+    })),
+    total: quizzes.length,
+  });
+};
+
+export const getQuizById = async (req: AuthRequest, res: Response) => {
+  const { id } = req.params;
+
+  const quiz = await prisma.quiz.findFirst({
+    where: {
+      id,
+      userId: req.user!.userId,
+    },
+    include: {
+      questions: {
+        orderBy: {
+          order: 'asc',
+        },
+      },
+    },
+  });
+
+  if (!quiz) {
+    return res.status(404).json({ error: 'Quiz non trouvé' });
+  }
+
+  res.json({ quiz });
+};
+
+export const createQuiz = async (req: AuthRequest, res: Response) => {
+  const { title, description, theme } = req.body;
+
+  const quiz = await prisma.quiz.create({
+    data: {
+      title,
+      description,
+      theme,
+      userId: req.user!.userId,
+    },
+  });
+
+  res.status(201).json({ quiz });
+};
+
+export const updateQuiz = async (req: AuthRequest, res: Response) => {
+  const { id } = req.params;
+  const { title, description, theme } = req.body;
+
+  const quiz = await prisma.quiz.findFirst({
+    where: {
+      id,
+      userId: req.user!.userId,
+    },
+  });
+
+  if (!quiz) {
+    return res.status(404).json({ error: 'Quiz non trouvé' });
+  }
+
+  const updatedQuiz = await prisma.quiz.update({
+    where: { id },
+    data: {
+      title,
+      description,
+      theme,
+    },
+  });
+
+  res.json({ quiz: updatedQuiz });
+};
+
+export const deleteQuiz = async (req: AuthRequest, res: Response) => {
+  const { id } = req.params;
+
+  const quiz = await prisma.quiz.findFirst({
+    where: {
+      id,
+      userId: req.user!.userId,
+    },
+  });
+
+  if (!quiz) {
+    return res.status(404).json({ error: 'Quiz non trouvé' });
+  }
+
+  await prisma.quiz.delete({
+    where: { id },
+  });
+
+  res.json({ message: 'Quiz supprimé' });
+};
+
+export const addQuestion = async (req: AuthRequest, res: Response) => {
+  const { quizId } = req.params;
+  const { type, content, audioUrl, imageUrl, choices, correctIndex, timeLimit, points } = req.body;
+
+  // Vérifier que le quiz appartient à l'utilisateur
+  const quiz = await prisma.quiz.findFirst({
+    where: {
+      id: quizId,
+      userId: req.user!.userId,
+    },
+    include: {
+      questions: true,
+    },
+  });
+
+  if (!quiz) {
+    return res.status(404).json({ error: 'Quiz non trouvé' });
+  }
+
+  const question = await prisma.question.create({
+    data: {
+      quizId,
+      order: quiz.questions.length + 1,
+      type,
+      content,
+      audioUrl,
+      imageUrl,
+      choices,
+      correctIndex,
+      timeLimit,
+      points,
+    },
+  });
+
+  res.status(201).json({ question });
+};
+
+export const updateQuestion = async (req: AuthRequest, res: Response) => {
+  const { quizId, id } = req.params;
+  const { type, content, audioUrl, imageUrl, choices, correctIndex, timeLimit, points, order } = req.body;
+
+  // Vérifier que le quiz appartient à l'utilisateur
+  const quiz = await prisma.quiz.findFirst({
+    where: {
+      id: quizId,
+      userId: req.user!.userId,
+    },
+  });
+
+  if (!quiz) {
+    return res.status(404).json({ error: 'Quiz non trouvé' });
+  }
+
+  const question = await prisma.question.update({
+    where: { id },
+    data: {
+      type,
+      content,
+      audioUrl,
+      imageUrl,
+      choices,
+      correctIndex,
+      timeLimit,
+      points,
+      order,
+    },
+  });
+
+  res.json({ question });
+};
+
+export const deleteQuestion = async (req: AuthRequest, res: Response) => {
+  const { quizId, id } = req.params;
+
+  // Vérifier que le quiz appartient à l'utilisateur
+  const quiz = await prisma.quiz.findFirst({
+    where: {
+      id: quizId,
+      userId: req.user!.userId,
+    },
+  });
+
+  if (!quiz) {
+    return res.status(404).json({ error: 'Quiz non trouvé' });
+  }
+
+  await prisma.question.delete({
+    where: { id },
+  });
+
+  res.json({ message: 'Question supprimée' });
+};
