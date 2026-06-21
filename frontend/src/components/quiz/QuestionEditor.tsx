@@ -57,7 +57,6 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
       type: 'text_qcm',
       options: ['', '', '', ''],
       correctAnswer: '',
-      points: 100,
       timeLimit: 30,
     };
     onQuestionsChange([...questions, newQuestion]);
@@ -476,14 +475,7 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
 
               {renderQuestionTypeFields(question, index)}
 
-              <div className="grid grid-cols-2 gap-3">
-                <Input
-                  type="number"
-                  label="Points"
-                  value={question.points || 100}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { points: parseInt(e.target.value) })}
-                  min={1}
-                />
+              <div>
                 <Input
                   type="number"
                   label="Temps limite (secondes)"
@@ -492,6 +484,9 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
                   min={5}
                   max={120}
                 />
+                <p className="text-xs text-gray-400 mt-1">
+                  Les points sont calculés automatiquement : temps restant × 1000
+                </p>
               </div>
             </div>
           </div>
