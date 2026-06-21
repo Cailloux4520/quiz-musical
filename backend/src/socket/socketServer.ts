@@ -12,6 +12,12 @@ import {
   handleShowResults,
   handleMasterJoin,
 } from './handlers/masterHandlers';
+import {
+  handleTeamCreate,
+  handleTeamJoin,
+  handleTeamLeave,
+  handleGetTeams,
+} from './handlers/teamHandlers';
 
 export const initializeSocketServer = (httpServer: HTTPServer) => {
   const io = new Server(httpServer, {
@@ -28,6 +34,12 @@ export const initializeSocketServer = (httpServer: HTTPServer) => {
     // Events pour les joueurs
     socket.on('player:join', (data) => handlePlayerJoin(socket, data));
     socket.on('answer:submit', (data) => handleAnswerSubmit(socket, data));
+
+    // Events pour les équipes
+    socket.on('team:create', (data) => handleTeamCreate(socket, data));
+    socket.on('team:join', (data) => handleTeamJoin(socket, data));
+    socket.on('team:leave', (data) => handleTeamLeave(socket, data));
+    socket.on('teams:get', (data) => handleGetTeams(socket, data));
 
     // Events pour le maître de session
     socket.on('master:join', (data) => handleMasterJoin(socket, data));
