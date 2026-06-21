@@ -330,9 +330,9 @@ print_info "Génération du client Prisma..."
 su - $APP_USER -c "cd $INSTALL_DIR/backend && npm run prisma:generate"
 print_success "Client Prisma généré"
 
-print_info "Exécution des migrations..."
-su - $APP_USER -c "cd $INSTALL_DIR/backend && npm run prisma:migrate"
-print_success "Migrations exécutées"
+print_info "Application du schéma à la base de données..."
+su - $APP_USER -c "cd $INSTALL_DIR/backend && npx prisma db push --accept-data-loss"
+print_success "Schéma appliqué"
 
 print_info "Initialisation de la base de données..."
 su - $APP_USER -c "cd $INSTALL_DIR/backend && npm run prisma:seed"
