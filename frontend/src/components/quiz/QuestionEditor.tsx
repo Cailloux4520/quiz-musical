@@ -206,7 +206,7 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
                 <div key={optIndex} className="flex gap-2 mb-2">
                   <Input
                     value={option}
-                    onChange={(e) => updateOption(index, optIndex, e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateOption(index, optIndex, e.target.value)}
                     placeholder={`Option ${optIndex + 1}`}
                     required
                   />
@@ -276,7 +276,7 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
                         type="number"
                         label="Début (secondes)"
                         value={question.startTime || 0}
-                        onChange={(e) => updateQuestion(index, { startTime: parseInt(e.target.value) })}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { startTime: parseInt(e.target.value) })}
                         min={0}
                         max={question.duration || 300}
                       />
@@ -284,7 +284,7 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
                         type="number"
                         label="Fin (secondes)"
                         value={question.endTime || question.duration || 30}
-                        onChange={(e) => updateQuestion(index, { endTime: parseInt(e.target.value) })}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { endTime: parseInt(e.target.value) })}
                         min={question.startTime || 0}
                         max={question.duration || 300}
                       />
@@ -308,7 +308,7 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
               <label className="block text-sm font-medium mb-2">Réponse correcte</label>
               <Input
                 value={question.correctAnswer || ''}
-                onChange={(e) => updateQuestion(index, { correctAnswer: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { correctAnswer: e.target.value })}
                 placeholder="Réponse attendue"
                 required
               />
@@ -332,7 +332,7 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
                 <div key={ansIndex} className="flex gap-2 mb-2">
                   <Input
                     value={answer}
-                    onChange={(e) => updateAcceptedAnswer(index, ansIndex, e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateAcceptedAnswer(index, ansIndex, e.target.value)}
                     placeholder="Variante de réponse"
                   />
                   <Button
@@ -367,7 +367,7 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
             <Input
               label="URL YouTube"
               value={question.youtubeUrl || ''}
-              onChange={(e) => updateQuestion(index, { youtubeUrl: e.target.value })}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { youtubeUrl: e.target.value })}
               placeholder="https://www.youtube.com/watch?v=..."
               required
             />
@@ -376,14 +376,14 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
                 type="number"
                 label="Début (secondes)"
                 value={question.startTime || 0}
-                onChange={(e) => updateQuestion(index, { startTime: parseInt(e.target.value) })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { startTime: parseInt(e.target.value) })}
                 min={0}
               />
               <Input
                 type="number"
                 label="Fin (secondes)"
                 value={question.endTime || 30}
-                onChange={(e) => updateQuestion(index, { endTime: parseInt(e.target.value) })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { endTime: parseInt(e.target.value) })}
                 min={question.startTime || 0}
               />
             </div>
@@ -473,7 +473,7 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
               <Input
                 label="Énoncé de la question"
                 value={question.question}
-                onChange={(e) => updateQuestion(index, { question: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { question: e.target.value })}
                 placeholder="Ex: Qui a chanté 'Thriller' ?"
                 required
               />
@@ -485,14 +485,14 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
                   type="number"
                   label="Points"
                   value={question.points || 100}
-                  onChange={(e) => updateQuestion(index, { points: parseInt(e.target.value) })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { points: parseInt(e.target.value) })}
                   min={1}
                 />
                 <Input
                   type="number"
                   label="Temps limite (secondes)"
                   value={question.timeLimit || 30}
-                  onChange={(e) => updateQuestion(index, { timeLimit: parseInt(e.target.value) })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { timeLimit: parseInt(e.target.value) })}
                   min={5}
                   max={120}
                 />
