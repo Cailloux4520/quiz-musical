@@ -52,7 +52,7 @@ Le script vous demandera :
 
 1. **Nom de domaine** : `quiz.votredomaine.com`
 2. **Email pour SSL** : `votre@email.com`
-3. **URL du repository** : `https://github.com/votre-user/quiz-musical.git`
+3. **URL du repository** : `https://github.com/Cailloux4520/quiz-musical-.git`
 4. **Branche Git** : `main` (par défaut)
 5. **Nom d'utilisateur** : `quizapp` (par défaut)
 
