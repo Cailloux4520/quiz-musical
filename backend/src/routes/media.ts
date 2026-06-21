@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import multer from 'multer';
-import { authenticateToken } from '../middleware/auth';
+import { authMiddleware } from '../middleware/auth';
 import {
   uploadMedia,
   listMedia,
@@ -31,9 +31,9 @@ const upload = multer({
 });
 
 // Routes médiathèque (protégées par auth)
-router.post('/upload', authenticateToken, upload.single('file'), uploadMedia);
-router.get('/', authenticateToken, listMedia);
-router.get('/:id', authenticateToken, getMediaById);
-router.delete('/:id', authenticateToken, deleteMedia);
+router.post('/upload', authMiddleware, upload.single('file'), uploadMedia);
+router.get('/', authMiddleware, listMedia);
+router.get('/:id', authMiddleware, getMediaById);
+router.delete('/:id', authMiddleware, deleteMedia);
 
 export default router;
