@@ -47,7 +47,7 @@ export const PlayerGame: React.FC = () => {
       teamId: teamId || undefined,
     });
 
-    socket.on('player:joined', (data: { player: Player }) => {
+    socket.on('player:joined', (_data: { player: Player }) => {
       setConnected(true);
       // Demander la liste des équipes
       socket.emit('teams:get', { sessionId });
