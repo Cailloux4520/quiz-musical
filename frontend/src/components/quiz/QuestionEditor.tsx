@@ -4,6 +4,11 @@ import { Input } from '../common/Input';
 import { Button } from '../common/Button';
 import { MediaSelector } from '../media/MediaSelector';
 
+// Générer un ID unique pour les questions
+const generateQuestionId = () => {
+  return `q_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+};
+
 // Types de questions disponibles
 export const QUESTION_TYPES = [
   { value: 'text_qcm', label: 'QCM Texte', icon: ListChecks, description: 'Question à choix multiples classique' },
@@ -53,6 +58,7 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
 
   const addQuestion = () => {
     const newQuestion: Question = {
+      id: generateQuestionId(),
       question: '',
       type: 'text_qcm',
       options: ['', '', '', ''],
@@ -420,8 +426,15 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
           Aucune question. Cliquez sur "Ajouter une question" pour commencer.
         </div>
       ) : (
-        questions.map((question, index) => (
-          <div key={index} className="border border-gray-600 rounded-lg p-4 bg-gray-800 shadow-sm">
+        questions.map((question, index) => {
+          // S'assurer que chaque question a un ID
+          const questionId = question.id || generateQuestionId();
+          if (!question.id) {
+            question.id = questionId;
+          }
+          
+          return (
+          <div key={questionId} className="border border-gray-600 rounded-lg p-4 bg-gray-800 shadow-sm">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-2">
                 <span className="font-bold text-gray-300">#{index + 1}</span>
@@ -490,7 +503,8 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
               </div>
             </div>
           </div>
-        ))
+          );
+        })
       )}
 
       {/* Media Selector Modal */}
