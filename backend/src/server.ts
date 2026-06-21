@@ -6,10 +6,12 @@ import 'express-async-errors';
 import { config } from './config/env';
 import { errorHandler } from './middleware/errorHandler';
 import { initializeSocketServer } from './socket/socketServer';
+import { initializeMinIO } from './services/minio';
 
 import authRoutes from './routes/auth';
 import quizRoutes from './routes/quiz';
 import sessionRoutes from './routes/session';
+import mediaRoutes from './routes/media';
 
 const app = express();
 const httpServer = createServer(app);
@@ -28,12 +30,18 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/quiz', quizRoutes);
 app.use('/api/session', sessionRoutes);
+app.use('/api/media', mediaRoutes);
 
 // Error handler (doit être à la fin)
 app.use(errorHandler);
 
 // Initialiser Socket.io
 initializeSocketServer(httpServer);
+
+// Initialiser MinIO
+initializeMinIO().catch((err) => {
+  console.error('Impossible d\'initialiser MinIO:', err);
+});
 
 // Démarrer le serveur
 httpServer.listen(config.port, () => {

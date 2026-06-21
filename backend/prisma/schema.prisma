@@ -16,23 +16,25 @@ model User {
   email     String   @unique
   password  String   // Hash bcrypt
   name      String
-  role      String   @default("admin") // "admin" | "user"
+  role      String   @default("creator") // "admin" | "creator" | "animator"
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   quizzes Quiz[]
+  media   Media[]
 
   @@map("users")
 }
 
 // Quiz créé par un admin
 model Quiz {
-  id          String   @id @default(uuid())
-  title       String
-  description String?
-  theme       String   @default("pop") // "retro", "pop", "elegant"
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                      String   @id @default(uuid())
+  title                   String
+  description             String?
+  theme                   String   @default("annees80") // "annees80", "annees90", "annees2000", "jeuxvideo", "cinema", "series", "manga", "autres"
+  defaultTimePerQuestion  Int      @default(30) // Temps par défaut en secondes
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -45,18 +47,40 @@ model Quiz {
 
 // Question d'un quiz
 model Question {
-  id           String   @id @default(uuid())
-  order        Int      // Position dans le quiz
-  type         String   // "audio", "text", "image"
-  content      String   // Texte de la question
-  audioUrl     String?  // URL de l'extrait audio (MinIO)
-  imageUrl     String?  // URL de l'image (MinIO)
-  correctIndex Int      // Index de la bonne réponse (0-3)
+  id      String @id @default(uuid())
+  order   Int    // Position dans le quiz
+  type    String // "text_qcm" | "text_free" | "image_qcm" | "audio_qcm" | "blind_test" | "album_cover" | "youtube"
+  content String // Texte de la question
+
+  // Médias
+  audioUrl   String? // URL de l'extrait audio (MinIO)
+  imageUrl   String? // URL de l'image (MinIO)
+  youtubeUrl String? // URL YouTube
+
+  // Paramètres audio (pour audio_qcm, blind_test)
+  startTime Int? // Début extrait en secondes
+  endTime   Int? // Fin extrait en secondes
+  duration  Int? // Durée totale audio en secondes
+
+  // Réponses QCM (4 choix)
   choices      String[] // Array de 4 choix
-  timeLimit    Int      @default(30) // Secondes
-  points       Int      @default(1000) // Points de base
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  correctIndex Int      // Index de la bonne réponse (0-3)
+
+  // Réponses texte libre (pour text_free)
+  correctAnswer   String?   // Réponse attendue
+  acceptedAnswers String[]  @default([]) // Variantes acceptées
+  caseSensitive   Boolean   @default(false)
+
+  // Configuration
+  timeLimit   Int     @default(30) // Secondes
+  points      Int     @default(1000) // Points maximum
+  customTheme String? // Thème personnalisé optionnel
+
+  // YouTube config
+  showVideoAfterAnswer Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   quizId String
   quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
@@ -68,14 +92,15 @@ model Question {
 
 // Session de jeu en direct
 model Session {
-  id         String   @id @default(uuid())
-  inviteCode String   @unique // Code à 6 caractères (ex: "ABC123")
-  status     String   @default("waiting") // "waiting", "playing", "finished"
-  currentQ   Int      @default(0) // Index de la question actuelle
+  id         String    @id @default(uuid())
+  inviteCode String    @unique // Code à 6 caractères (ex: "ABC123")
+  qrCodeUrl  String?   // URL de l'image QR Code (MinIO)
+  status     String    @default("waiting") // "waiting", "playing", "finished"
+  currentQ   Int       @default(0) // Index de la question actuelle
   startedAt  DateTime?
   finishedAt DateTime?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 
   quizId String
   quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
@@ -110,12 +135,12 @@ model Player {
 
 // Réponse d'un joueur à une question
 model Answer {
-  id            String   @id @default(uuid())
-  choiceIndex   Int      // Index de la réponse choisie
-  isCorrect     Boolean
-  timeElapsed   Int      // Millisecondes écoulées
-  pointsEarned  Int      // Points gagnés (basé sur rapidité)
-  answeredAt    DateTime @default(now())
+  id           String   @id @default(uuid())
+  chosenIndex  Int      // Index de la réponse choisie (0-3)
+  isCorrect    Boolean
+  responseTime Int      // Millisecondes depuis début question
+  scoreEarned  Int      // Points gagnés (basé sur rapidité)
+  answeredAt   DateTime @default(now())
 
   playerId String
   player   Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
@@ -140,4 +165,22 @@ model Team {
   players Player[]
 
   @@map("teams")
+}
+
+// Médiathèque (fichiers audio et images)
+model Media {
+  id        String   @id @default(uuid())
+  filename  String   // Nom original du fichier
+  filepath  String   // Chemin dans MinIO
+  url       String   // URL publique
+  type      String   // "audio" | "image"
+  format    String   // "mp3" | "wav" | "ogg" | "jpg" | "png" | "webp"
+  size      Int      // Taille en bytes
+  duration  Int?     // Durée en secondes (audio uniquement)
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("media")
 }
