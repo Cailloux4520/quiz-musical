@@ -10,6 +10,7 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "seed": "tsx prisma/seed.ts",
+    "reset-admin": "tsx prisma/reset-admin.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
