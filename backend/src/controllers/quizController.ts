@@ -310,7 +310,7 @@ export const importQuestionsFromExcel = async (req: AuthRequest, res: Response) 
 
   try {
     const workbook = new ExcelJS.Workbook();
-    await workbook.xlsx.load(req.file.buffer);
+    await workbook.xlsx.load(req.file.buffer as any);
     const worksheet = workbook.getWorksheet(1);
 
     if (!worksheet) {
@@ -338,8 +338,8 @@ export const importQuestionsFromExcel = async (req: AuthRequest, res: Response) 
         const audioUrl = row.getCell(10).value?.toString() || '';
         const imageUrl = row.getCell(11).value?.toString() || '';
         const youtubeUrl = row.getCell(12).value?.toString() || '';
-        const startTime = row.getCell(13).value ? parseInt(row.getCell(13).value.toString()) : null;
-        const endTime = row.getCell(14).value ? parseInt(row.getCell(14).value.toString()) : null;
+        const startTime = row.getCell(13).value ? parseInt(row.getCell(13).value!.toString()) : null;
+        const endTime = row.getCell(14).value ? parseInt(row.getCell(14).value!.toString()) : null;
         const caseSensitive = row.getCell(15).value?.toString().toLowerCase() === 'oui';
         const showVideoAfterAnswer = row.getCell(16).value?.toString().toLowerCase() === 'oui';
 
@@ -402,9 +402,10 @@ export const importQuestionsFromExcel = async (req: AuthRequest, res: Response) 
       errors: errors.length > 0 ? errors : undefined,
       total: successCount + errors.length,
     });
+    return;
   } catch (error: any) {
     console.error('Erreur import Excel:', error);
-    res.status(500).json({ error: 'Erreur lors de l\'import', details: error.message });
+    return res.status(500).json({ error: 'Erreur lors de l\'import', details: error.message });
   }
 };
 
@@ -491,8 +492,9 @@ export const exportQuestionsToExcel = async (req: AuthRequest, res: Response) =>
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     res.setHeader('Content-Disposition', `attachment; filename="${quiz.title.replace(/[^a-z0-9]/gi, '_')}_questions.xlsx"`);
     res.send(buffer);
+    return;
   } catch (error: any) {
     console.error('Erreur export Excel:', error);
-    res.status(500).json({ error: 'Erreur lors de l\'export', details: error.message });
+    return res.status(500).json({ error: 'Erreur lors de l\'export', details: error.message });
   }
 };
