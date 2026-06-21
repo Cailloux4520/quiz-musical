@@ -1,36 +1,30 @@
 # 🎵 Quiz Musical - Application de Quiz en Temps Réel
 
-Application web de quiz musical en mode soirée, inspirée de Kahoot. Créez des quiz musicaux immersifs avec extraits audio, questions visuelles et thèmes personnalisables. Animez des sessions en direct avec classement en temps réel !
-
-## 🚀 Installation Rapide
-
-### Option 1 : Installation Automatique sur VPS (Recommandé)
-
-```bash
-wget -qO- https://raw.githubusercontent.com/Cailloux4520/quiz-musical/main/scripts/install-full-auto.sh | sudo bash
-```
-
-⏱️ **15-20 minutes** - Tout est configuré automatiquement ! Voir [QUICKSTART.md](QUICKSTART.md)
-
-### Option 2 : Développement Local
-
-```bash
-docker-compose up -d
-cd backend && npm install && npm run prisma:migrate && npm run dev
-cd ../frontend && npm install && npm run dev
-```
-
-Voir [INSTALL.md](INSTALL.md) pour plus de détails.
+Application web de quiz musical en mode soirée, inspirée de Kahoot. Créez des quiz musicaux immersifs avec extraits audio, questions visuelles et thèmes personnalisables. Animez des sessions en direct avec classement en temps réel et exports professionnels !
 
 ## ✨ Fonctionnalités Principales
 
-- 🎨 **3 Thèmes Visuels** : Rétro/Néon, Pop Coloré, Élégant Sombre
-- 🎵 **Questions Multimédia** : Audio, textes, images (pochettes d'albums)
-- ⚡ **Temps Réel** : Synchronisation instantanée via WebSocket
-- 📱 **Multi-Appareils** : Interface joueur optimisée mobile
-- 🏆 **Scoring Dynamique** : Points basés sur la rapidité de réponse
-- 👥 **Mode Équipes** : Classement individuel et par équipe
+### 🎨 Création de Quiz
+- **3 Thèmes Visuels** : Rétro/Néon, Pop Coloré, Élégant Sombre
+- **9 Types de Questions** : QCM audio, blind test, pochettes d'albums, vidéos YouTube, texte libre
+- **Import/Export Excel** : Importez 50+ questions en 5 secondes
+- **Médiathèque** : Gérez vos fichiers audio, images, vidéos avec MinIO
+
+### 🎮 Animation en Direct
+- ⚡ **Temps Réel** : Synchronisation instantanée via Socket.io WebSocket
+- 📱 **Multi-Appareils** : Interface joueur optimisée mobile (320px+)
+- 🏆 **Scoring Intelligent** : Points basés sur rapidité + validation anti-triche (<200ms)
+- 👥 **Mode Équipes** : Classement individuel et par équipe avec couleurs
 - 🎭 **Sans Compte Joueur** : Rejoignez avec un simple pseudo
+- 📊 **Stats en Direct** : Distribution des réponses en temps réel
+- 🎉 **Podium 3D** : Animations confettis et sons de victoire
+
+### 📈 Statistiques & Exports
+- 📊 **Dashboard Admin** : KPI, graphiques sessions/jour, top quiz
+- 📄 **Export PDF** : Rapport complet avec podium, classements, statistiques
+- 📊 **Export Excel** : 5 feuilles (résumé, joueurs, équipes, questions, matrice)
+- 📋 **Export CSV** : Classement simple pour import externe
+- 🔒 **Sécurisé** : Exports protégés par authentification JWT
 
 ## 🚀 Démarrage Rapide
 
