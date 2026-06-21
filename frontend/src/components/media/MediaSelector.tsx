@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Search, Play, Pause, Music, Image as ImageIcon } from 'lucide-react';
+import { X, Search, Play, Pause, Music } from 'lucide-react';
 import api from '../../services/api';
 import { Button } from '../common/Button';
 import { Input } from '../common/Input';

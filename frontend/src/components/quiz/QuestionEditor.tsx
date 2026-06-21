@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Trash2, Plus, X, Music, Image as ImageIcon, Youtube, ListChecks } from 'lucide-react';
-import { Input } from '../components/common/Input';
-import { Button } from '../components/common/Button';
-import { MediaSelector } from '../components/media/MediaSelector';
+import { Trash2, Plus, X, Music, Image as ImageIcon, Video, ListChecks } from 'lucide-react';
+import { Input } from '../common/Input';
+import { Button } from '../common/Button';
+import { MediaSelector } from '../media/MediaSelector';
 
 // Types de questions disponibles
 export const QUESTION_TYPES = [
@@ -12,7 +12,7 @@ export const QUESTION_TYPES = [
   { value: 'audio_qcm', label: 'QCM Audio', icon: Music, description: 'QCM avec un extrait audio' },
   { value: 'blind_test', label: 'Blind Test', icon: Music, description: 'Deviner artiste et/ou titre' },
   { value: 'album_cover', label: 'Pochette d\'Album', icon: ImageIcon, description: 'Deviner depuis une pochette' },
-  { value: 'youtube', label: 'Vidéo YouTube', icon: Youtube, description: 'Question avec vidéo YouTube' },
+  { value: 'youtube', label: 'Vidéo YouTube', icon: Video, description: 'Question avec vidéo YouTube' },
 ];
 
 export interface Question {
