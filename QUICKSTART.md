@@ -5,7 +5,7 @@
 Sur votre VPS Ubuntu 20.04 LTS, exécutez cette **unique commande** :
 
 ```bash
-wget -qO- https://raw.githubusercontent.com/Cailloux4520/quiz-musical-/main/scripts/install-full-auto.sh | sudo bash
+wget -qO- https://raw.githubusercontent.com/Cailloux4520/quiz-musical/main/scripts/install-full-auto.sh | sudo bash
 ```
 
 **C'est tout !** ✨

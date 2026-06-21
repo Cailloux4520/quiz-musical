@@ -25,13 +25,13 @@ Ce script installe et configure automatiquement **TOUT** sur votre VPS Ubuntu 20
 Connectez-vous en SSH à votre VPS et exécutez :
 
 ```bash
-wget https://raw.githubusercontent.com/Cailloux4520/quiz-musical-/main/scripts/install-full-auto.sh
+wget https://raw.githubusercontent.com/Cailloux4520/quiz-musical/main/scripts/install-full-auto.sh
 ```
 
 Ou avec curl :
 
 ```bash
-curl -O https://raw.githubusercontent.com/Cailloux4520/quiz-musical-/main/scripts/install-full-auto.sh
+curl -O https://raw.githubusercontent.com/Cailloux4520/quiz-musical/main/scripts/install-full-auto.sh
 ```
 
 ### Étape 2 : Rendre le script exécutable
@@ -52,7 +52,7 @@ Le script vous demandera :
 
 1. **Nom de domaine** : `quiz.votredomaine.com`
 2. **Email pour SSL** : `votre@email.com`
-3. **URL du repository** : `https://github.com/Cailloux4520/quiz-musical-.git`
+3. **URL du repository** : `https://github.com/Cailloux4520/quiz-musical.git`
 4. **Branche Git** : `main` (par défaut)
 5. **Nom d'utilisateur** : `quizapp` (par défaut)
 

@@ -7,7 +7,7 @@ Application web de quiz musical en mode soirée, inspirée de Kahoot. Créez des
 ### Option 1 : Installation Automatique sur VPS (Recommandé)
 
 ```bash
-wget -qO- https://raw.githubusercontent.com/Cailloux4520/quiz-musical-/main/scripts/install-full-auto.sh | sudo bash
+wget -qO- https://raw.githubusercontent.com/Cailloux4520/quiz-musical/main/scripts/install-full-auto.sh | sudo bash
 ```
 
 ⏱️ **15-20 minutes** - Tout est configuré automatiquement ! Voir [QUICKSTART.md](QUICKSTART.md)
