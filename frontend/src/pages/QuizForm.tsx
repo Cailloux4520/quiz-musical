@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Card } from '../components/common/Card';
 import { Input } from '../components/common/Input';
 import { Button } from '../components/common/Button';
 import { QuestionEditor, Question } from '../components/quiz/QuestionEditor';
+import { Upload, Download } from 'lucide-react';
 import api from '../services/api';
 
 // Thèmes disponibles avec icônes et fonds d'écran
@@ -70,8 +71,10 @@ export const QuizForm: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const isEdit = !!id;
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [loading, setLoading] = useState(false);
+  const [importLoading, setImportLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -132,6 +135,96 @@ export const QuizForm: React.FC = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleImportExcel = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !id) return;
+
+    if (!file.name.endsWith('.xlsx') && !file.name.endsWith('.xls')) {
+      alert('Veuillez sélectionner un fichier Excel (.xlsx ou .xls)');
+      return;
+    }
+
+    setImportLoading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await api.post(`/quiz/${id}/import-excel`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      const result = response.data;
+      let message = `Import terminé !\n${result.success} question(s) importée(s)`;
+      
+      if (result.errors && result.errors.length > 0) {
+        message += `\n\nErreurs (${result.errors.length}):\n${result.errors.slice(0, 5).join('\n')}`;
+        if (result.errors.length > 5) {
+          message += `\n... et ${result.errors.length - 5} autre(s) erreur(s)`;
+        }
+      }
+
+      alert(message);
+      
+      // Recharger le quiz pour voir les nouvelles questions
+      await loadQuiz();
+    } catch (error: any) {
+      console.error('Erreur import:', error);
+      alert(error.response?.data?.error || 'Erreur lors de l\'import');
+    } finally {
+      setImportLoading(false);
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
+
+  const handleExportExcel = async () => {
+    if (!id) {
+      alert('Veuillez d\'abord enregistrer le quiz');
+      return;
+    }
+
+    try {
+      const response = await api.get(`/quiz/${id}/export-excel`, {
+        responseType: 'blob',
+      });
+
+      // Créer un lien de téléchargement
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${formData.title || 'quiz'}_questions.xlsx`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error: any) {
+      console.error('Erreur export:', error);
+      alert('Erreur lors de l\'export');
+    }
+  };
+
+  const downloadTemplate = () => {
+    // Créer un template Excel vide avec les en-têtes
+    const template = `Type,Question,Option 1,Option 2,Option 3,Option 4,Réponse Correcte,Variantes (séparées par |),Temps (sec),URL Audio,URL Image,URL YouTube,Début (sec),Fin (sec),Sensible Casse,Montrer Vidéo Après
+text_qcm,Quelle est la couleur du ciel ?,Bleu,Rouge,Vert,Jaune,0,,30,,,,,,,Non
+text_free,Qui a peint la Joconde ?,,,,,Léonard de Vinci,Leonardo da Vinci | Da Vinci,30,,,,,,,Non
+blind_test,Quel est le titre de cette chanson ?,,,,,Bohemian Rhapsody,,30,https://exemple.com/audio.mp3,,,,0,30,Non,Non`;
+
+    const blob = new Blob([template], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'template_questions.csv');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
   };
 
   return (
@@ -218,6 +311,53 @@ export const QuizForm: React.FC = () => {
                 ))}
               </div>
             </div>
+
+            {/* Import/Export Excel */}
+            {isEdit && (
+              <div className="pt-6 border-t dark:border-gray-700">
+                <h3 className="text-lg font-bold mb-3">Import/Export Excel</h3>
+                <div className="flex flex-wrap gap-3">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept=".xlsx,.xls"
+                    onChange={handleImportExcel}
+                    className="hidden"
+                  />
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={importLoading}
+                    className="flex items-center gap-2"
+                  >
+                    <Upload size={18} />
+                    {importLoading ? 'Import en cours...' : 'Importer depuis Excel'}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={handleExportExcel}
+                    className="flex items-center gap-2"
+                  >
+                    <Download size={18} />
+                    Exporter vers Excel
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={downloadTemplate}
+                    className="flex items-center gap-2"
+                  >
+                    <Download size={18} />
+                    Télécharger template
+                  </Button>
+                </div>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                  💡 Importez/exportez vos questions en masse depuis Excel. Le template vous montre le format attendu.
+                </p>
+              </div>
+            )}
 
             {/* Éditeur de questions */}
             <div className="pt-6 border-t dark:border-gray-700">
