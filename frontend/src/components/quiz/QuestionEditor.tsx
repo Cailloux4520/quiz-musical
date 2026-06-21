@@ -146,7 +146,7 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
           <div className="space-y-3">
             {question.type === 'image_qcm' && (
               <div>
-                <label className="block text-sm font-medium mb-2">Image</label>
+                <label className="block text-sm font-medium mb-2 text-gray-200">Image</label>
                 {question.imageUrl ? (
                   <div className="relative">
                     <img src={question.imageUrl} alt="Question" className="w-full max-h-48 object-contain rounded border" />
@@ -174,9 +174,9 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
 
             {question.type === 'audio_qcm' && (
               <div>
-                <label className="block text-sm font-medium mb-2">Fichier Audio</label>
+                <label className="block text-sm font-medium mb-2 text-gray-200">Fichier Audio</label>
                 {question.audioUrl ? (
-                  <div className="p-3 bg-gray-100 rounded border flex items-center justify-between">
+                  <div className="p-3 bg-gray-700 rounded border border-gray-600 flex items-center justify-between">
                     <audio controls src={question.audioUrl} className="flex-1" />
                     <button
                       type="button"
@@ -201,7 +201,7 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
             )}
 
             <div>
-              <label className="block text-sm font-medium mb-2">Options de réponse</label>
+              <label className="block text-sm font-medium mb-2 text-gray-200">Options de réponse</label>
               {(question.options || []).map((option, optIndex) => (
                 <div key={optIndex} className="flex gap-2 mb-2">
                   <Input
@@ -230,7 +230,7 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
           <div className="space-y-3">
             {question.type === 'album_cover' && (
               <div>
-                <label className="block text-sm font-medium mb-2">Pochette d'Album</label>
+                <label className="block text-sm font-medium mb-2 text-gray-200">Pochette d'Album</label>
                 {question.imageUrl ? (
                   <div className="relative">
                     <img src={question.imageUrl} alt="Pochette" className="w-full max-h-48 object-contain rounded border" />
@@ -258,10 +258,10 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
 
             {question.type === 'blind_test' && (
               <div>
-                <label className="block text-sm font-medium mb-2">Extrait Audio</label>
+                <label className="block text-sm font-medium mb-2 text-gray-200">Extrait Audio</label>
                 {question.audioUrl ? (
                   <div className="space-y-2">
-                    <div className="p-3 bg-gray-100 rounded border flex items-center justify-between">
+                    <div className="p-3 bg-gray-700 rounded border border-gray-600 flex items-center justify-between">
                       <audio controls src={question.audioUrl} className="flex-1" />
                       <button
                         type="button"
@@ -305,7 +305,7 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
             )}
 
             <div>
-              <label className="block text-sm font-medium mb-2">Réponse correcte</label>
+              <label className="block text-sm font-medium mb-2 text-gray-200">Réponse correcte</label>
               <Input
                 value={question.correctAnswer || ''}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateQuestion(index, { correctAnswer: e.target.value })}
@@ -316,7 +316,7 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
 
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-sm font-medium">Variantes acceptées (optionnel)</label>
+                <label className="block text-sm font-medium text-gray-200">Variantes acceptées (optionnel)</label>
                 <Button
                   type="button"
                   variant="secondary"
@@ -353,7 +353,7 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
                 onChange={(e) => updateQuestion(index, { caseSensitive: e.target.checked })}
                 className="w-4 h-4"
               />
-              <label htmlFor={`case-sensitive-${index}`} className="text-sm">
+              <label htmlFor={`case-sensitive-${index}`} className="text-sm text-gray-200">
                 Sensible à la casse
               </label>
             </div>
@@ -394,7 +394,7 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
                 onChange={(e) => updateQuestion(index, { showVideoAfterAnswer: e.target.checked })}
                 className="w-4 h-4"
               />
-              <label htmlFor={`show-video-${index}`} className="text-sm">
+              <label htmlFor={`show-video-${index}`} className="text-sm text-gray-200">
                 Afficher la vidéo complète après la réponse
               </label>
             </div>
@@ -422,14 +422,14 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
         </div>
       ) : (
         questions.map((question, index) => (
-          <div key={index} className="border rounded-lg p-4 bg-white shadow-sm">
+          <div key={index} className="border border-gray-600 rounded-lg p-4 bg-gray-800 shadow-sm">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-2">
-                <span className="font-bold text-gray-600">#{index + 1}</span>
+                <span className="font-bold text-gray-300">#{index + 1}</span>
                 <select
                   value={question.type}
                   onChange={(e) => updateQuestion(index, { type: e.target.value })}
-                  className="px-3 py-1 border rounded bg-white text-sm font-medium"
+                  className="px-3 py-1 border border-gray-600 rounded bg-gray-700 text-white text-sm font-medium"
                 >
                   {QUESTION_TYPES.map((type) => (
                     <option key={type.value} value={type.value}>
