@@ -76,8 +76,8 @@ export const handleAnswerSubmit = async (
         questionId,
         chosenIndex: choiceIndex,
         isCorrect,
-        timeElapsed,
-        pointsEarned,
+        responseTime: timeElapsed,
+        scoreEarned: pointsEarned,
       },
     });
 
