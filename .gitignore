@@ -48,6 +48,10 @@ Thumbs.db
 
 # Prisma
 prisma/migrations/
+
+# Configuration locale (mots de passe, clés)
+local-config.txt
+quiz-musical-config.txt
 *.db
 *.db-journal
 
