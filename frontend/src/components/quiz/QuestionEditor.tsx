@@ -320,7 +320,6 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
                 <Button
                   type="button"
                   variant="secondary"
-                  size="sm"
                   onClick={() => addAcceptedAnswer(index)}
                   className="flex items-center gap-1"
                 >
@@ -443,7 +442,6 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
                 <Button
                   type="button"
                   variant="secondary"
-                  size="sm"
                   onClick={() => moveQuestion(index, 'up')}
                   disabled={index === 0}
                 >
@@ -452,7 +450,6 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
                 <Button
                   type="button"
                   variant="secondary"
-                  size="sm"
                   onClick={() => moveQuestion(index, 'down')}
                   disabled={index === questions.length - 1}
                 >
@@ -461,7 +458,6 @@ export const QuestionEditor: React.FC<QuestionEditorProps> = ({
                 <Button
                   type="button"
                   variant="danger"
-                  size="sm"
                   onClick={() => deleteQuestion(index)}
                 >
                   <Trash2 size={16} />
