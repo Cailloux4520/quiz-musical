@@ -5,6 +5,7 @@ import { useAuthStore } from './store/authStore';
 import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { AdminDashboard } from './pages/AdminDashboard';
+import { DashboardPage } from './pages/DashboardPage';
 import { PlayerJoinPage } from './pages/PlayerJoinPage';
 import { QuizForm } from './pages/QuizForm';
 import { CreateSession } from './pages/CreateSession';
@@ -43,6 +44,16 @@ function App() {
           element={
             <ProtectedRoute>
               <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        
+        {/* Tableau de bord statistiques (protégé) */}
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
             </ProtectedRoute>
           }
         />

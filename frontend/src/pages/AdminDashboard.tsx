@@ -68,6 +68,9 @@ export const AdminDashboard: React.FC = () => {
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-3xl font-bold">Mes Quiz</h2>
           <div className="flex gap-3">
+            <Button variant="secondary" onClick={() => navigate('/admin/dashboard')}>
+              📊 Statistiques
+            </Button>
             <Button variant="secondary" onClick={() => navigate('/admin/media')}>
               📁 Médiathèque
             </Button>

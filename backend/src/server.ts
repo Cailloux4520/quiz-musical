@@ -12,6 +12,7 @@ import authRoutes from './routes/auth';
 import quizRoutes from './routes/quiz';
 import sessionRoutes from './routes/session';
 import mediaRoutes from './routes/media';
+import dashboardRoutes from './routes/dashboard';
 
 const app = express();
 const httpServer = createServer(app);
@@ -31,6 +32,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/quiz', quizRoutes);
 app.use('/api/session', sessionRoutes);
 app.use('/api/media', mediaRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 // Error handler (doit être à la fin)
 app.use(errorHandler);
