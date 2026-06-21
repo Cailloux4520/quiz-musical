@@ -18,6 +18,10 @@ import {
   handleTeamLeave,
   handleGetTeams,
 } from './handlers/teamHandlers';
+import {
+  handleQuestionStart,
+  handleQuestionEnd,
+} from './handlers/statsHandlers';
 
 export const initializeSocketServer = (httpServer: HTTPServer) => {
   const io = new Server(httpServer, {
@@ -45,6 +49,8 @@ export const initializeSocketServer = (httpServer: HTTPServer) => {
     socket.on('master:join', (data) => handleMasterJoin(socket, data));
     socket.on('session:start', (data) => handleSessionStart(socket, data));
     socket.on('question:next', (data) => handleQuestionNext(socket, data));
+    socket.on('question:start', (data) => handleQuestionStart(socket, data));
+    socket.on('question:end', (data) => handleQuestionEnd(socket, data));
     socket.on('results:show', (data) => handleShowResults(socket, data));
 
     // Déconnexion

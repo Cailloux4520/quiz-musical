@@ -1,6 +1,7 @@
 import { Socket } from 'socket.io';
 import prisma from '../../utils/prisma';
 import { calculateScore } from '../../services/scoreService';
+import { broadcastAnswerStats } from './statsHandlers';
 
 export const handlePlayerJoin = async (
   socket: Socket,
@@ -122,6 +123,9 @@ export const handleAnswerSubmit = async (
       isCorrect,
       timeElapsed,
     });
+
+    // Broadcast des stats en temps réel
+    await broadcastAnswerStats(socket, sessionId, questionId);
   } catch (error) {
     socket.emit('error', { message: 'Erreur lors de l\'enregistrement de la réponse' });
     throw error;
