@@ -74,7 +74,7 @@ export const handleAnswerSubmit = async (
       data: {
         playerId,
         questionId,
-        choiceIndex,
+        chosenIndex: choiceIndex,
         isCorrect,
         timeElapsed,
         pointsEarned,
