@@ -14,19 +14,6 @@ import { PlayerGame } from './pages/PlayerGame';
 // Composant pour protéger les routes admin
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const isLoading = useAuthStore((state) => state.isLoading);
-  
-  // Pendant le chargement, afficher un spinner
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Chargement...</p>
-        </div>
-      </div>
-    );
-  }
   
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
@@ -36,13 +23,8 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 };
 
 function App() {
-  const checkAuth = useAuthStore((state) => state.checkAuth);
-
-  useEffect(() => {
-    // Vérifier l'authentification au chargement une seule fois
-    checkAuth();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Tableau vide pour n'exécuter qu'au montage initial
+  // Pas de checkAuth automatique - l'authentification sera vérifiée
+  // uniquement lors de l'accès aux routes protégées
 
   return (
     <BrowserRouter>
