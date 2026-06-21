@@ -5,7 +5,7 @@ import { Leaderboard } from '../components/game/Leaderboard';
 import { Podium3D } from '../components/game/Podium3D';
 import { socket } from '../services/socket';
 import { useVictorySound } from '../hooks/useVictorySound';
-import { Trophy, Download, Home, Sparkles, Users, BarChart3 } from 'lucide-react';
+import { Trophy, Download, Home, Sparkles, Users, BarChart3, FileSpreadsheet, FileText } from 'lucide-react';
 
 interface Player {
   rank: number;
@@ -144,28 +144,103 @@ export const ResultsPage: React.FC = () => {
     };
   }, [sessionId, navigate]);
 
-  const handleDownloadResults = () => {
-    if (!results) return;
+  const handleDownloadCSV = async () => {
+    if (!sessionId) return;
 
-    // Créer un CSV des résultats
-    const csvHeader = 'Rang,Pseudo,Score,Bonnes,Mauvaises,Équipe\n';
-    const csvRows = results.players
-      .map(
-        (p) =>
-          `${p.rank},"${p.nickname}",${p.score},${p.correctCount},${p.wrongCount},"${
-            p.team?.name || 'Solo'
-          }"`
-      )
-      .join('\n');
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(
+        `http://localhost:5000/api/session/${sessionId}/export/csv`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    const csv = csvHeader + csvRows;
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `resultats-${results.quizTitle || 'quiz'}.csv`;
-    link.click();
-    URL.revokeObjectURL(url);
+      if (!response.ok) {
+        throw new Error('Erreur lors du téléchargement');
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `resultats-${results?.quizTitle || 'quiz'}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Erreur téléchargement CSV:', error);
+      alert('Erreur lors du téléchargement du fichier CSV');
+    }
+  };
+
+  const handleDownloadExcel = async () => {
+    if (!sessionId) return;
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(
+        `http://localhost:5000/api/session/${sessionId}/export/excel`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Erreur lors du téléchargement');
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `resultats-${results?.quizTitle || 'quiz'}.xlsx`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Erreur téléchargement Excel:', error);
+      alert('Erreur lors du téléchargement du fichier Excel');
+    }
+  };
+
+  const handleDownloadPDF = async () => {
+    if (!sessionId) return;
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(
+        `http://localhost:5000/api/session/${sessionId}/export/pdf`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Erreur lors du téléchargement');
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `resultats-${results?.quizTitle || 'quiz'}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Erreur téléchargement PDF:', error);
+      alert('Erreur lors du téléchargement du fichier PDF');
+    }
   };
 
   if (loading) {
@@ -314,22 +389,50 @@ export const ResultsPage: React.FC = () => {
         </Card>
 
         {/* Actions */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <button
-            onClick={handleDownloadResults}
-            className="bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-4 rounded-xl font-bold hover:from-green-600 hover:to-green-700 transition transform hover:scale-105 shadow-lg flex items-center justify-center gap-3"
-          >
-            <Download className="w-6 h-6" />
-            Télécharger les résultats (CSV)
-          </button>
+        <Card className="bg-white/95 backdrop-blur">
+          <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
+            📥 Exporter les résultats
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+            <button
+              onClick={handleDownloadPDF}
+              className="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-4 rounded-xl font-bold hover:from-red-600 hover:to-red-700 transition transform hover:scale-105 shadow-lg flex items-center justify-center gap-3"
+            >
+              <FileText className="w-5 h-5" />
+              <span className="flex flex-col items-start">
+                <span className="text-sm">PDF</span>
+                <span className="text-xs opacity-80">Rapport complet</span>
+              </span>
+            </button>
+            <button
+              onClick={handleDownloadExcel}
+              className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-4 rounded-xl font-bold hover:from-green-600 hover:to-green-700 transition transform hover:scale-105 shadow-lg flex items-center justify-center gap-3"
+            >
+              <FileSpreadsheet className="w-5 h-5" />
+              <span className="flex flex-col items-start">
+                <span className="text-sm">Excel</span>
+                <span className="text-xs opacity-80">Multi-feuilles</span>
+              </span>
+            </button>
+            <button
+              onClick={handleDownloadCSV}
+              className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-4 rounded-xl font-bold hover:from-blue-600 hover:to-blue-700 transition transform hover:scale-105 shadow-lg flex items-center justify-center gap-3"
+            >
+              <Download className="w-5 h-5" />
+              <span className="flex flex-col items-start">
+                <span className="text-sm">CSV</span>
+                <span className="text-xs opacity-80">Classement simple</span>
+              </span>
+            </button>
+          </div>
           <button
             onClick={() => navigate('/')}
-            className="bg-gradient-to-r from-gray-600 to-gray-700 text-white px-8 py-4 rounded-xl font-bold hover:from-gray-700 hover:to-gray-800 transition transform hover:scale-105 shadow-lg flex items-center justify-center gap-3"
+            className="w-full bg-gradient-to-r from-gray-600 to-gray-700 text-white px-8 py-3 rounded-xl font-bold hover:from-gray-700 hover:to-gray-800 transition transform hover:scale-105 shadow-lg flex items-center justify-center gap-3"
           >
             <Home className="w-6 h-6" />
             Retour à l'accueil
           </button>
-        </div>
+        </Card>
 
         {/* Bouton confettis */}
         <div className="text-center">
