@@ -383,7 +383,7 @@ Oui ! C'est déjà activé dans `tsconfig.json` :
 
 1. Consultez cette FAQ
 2. Lisez la [documentation](docs/DEPLOYMENT_UBUNTU.md)
-3. Vérifiez les [issues GitHub](https://github.com/votre-user/quiz-musical/issues)
+3. Vérifiez les [issues GitHub](https://github.com/Cailloux4520/quiz-musical-/issues)
 4. Ouvrez une nouvelle issue
 
 ### Comment signaler un bug ?

@@ -25,13 +25,13 @@ Ce script installe et configure automatiquement **TOUT** sur votre VPS Ubuntu 20
 Connectez-vous en SSH à votre VPS et exécutez :
 
 ```bash
-wget https://raw.githubusercontent.com/votre-user/quiz-musical/main/scripts/install-full-auto.sh
+wget https://raw.githubusercontent.com/Cailloux4520/quiz-musical-/main/scripts/install-full-auto.sh
 ```
 
 Ou avec curl :
 
 ```bash
-curl -O https://raw.githubusercontent.com/votre-user/quiz-musical/main/scripts/install-full-auto.sh
+curl -O https://raw.githubusercontent.com/Cailloux4520/quiz-musical-/main/scripts/install-full-auto.sh
 ```
 
 ### Étape 2 : Rendre le script exécutable

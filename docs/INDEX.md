@@ -92,10 +92,10 @@ Bienvenue dans la documentation complète de **Quiz Musical** ! Cette page vous 
 
 ## 🔗 Liens Rapides
 
-- **Repository GitHub** : https://github.com/votre-user/quiz-musical
+- **Repository GitHub** : https://github.com/Cailloux4520/quiz-musical-
 - **Demo Live** : https://demo-quiz.votresite.com
-- **Issues** : https://github.com/votre-user/quiz-musical/issues
-- **Discussions** : https://github.com/votre-user/quiz-musical/discussions
+- **Issues** : https://github.com/Cailloux4520/quiz-musical-/issues
+- **Discussions** : https://github.com/Cailloux4520/quiz-musical-/discussions
 
 ## 📊 État du Projet
 
