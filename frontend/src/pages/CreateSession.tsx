@@ -70,7 +70,7 @@ export const CreateSession: React.FC = () => {
                 {quiz.description || 'Pas de description'}
               </p>
 
-              <Button onClick={handleCreateSession} disabled={loading} size="lg">
+              <Button onClick={handleCreateSession} disabled={loading}>
                 {loading ? 'Création...' : 'Créer la session'}
               </Button>
 
@@ -97,7 +97,7 @@ export const CreateSession: React.FC = () => {
                 </code>
               </div>
 
-              <Button onClick={handleStartGame} size="lg">
+              <Button onClick={handleStartGame}>
                 Démarrer le jeu
               </Button>
 

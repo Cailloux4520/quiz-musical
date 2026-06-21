@@ -123,10 +123,10 @@ export const MasterGame: React.FC = () => {
 
         {/* Controls */}
         <div className="flex gap-4 justify-center">
-          <Button size="lg" disabled>
+          <Button disabled>
             Démarrer le quiz (À venir)
           </Button>
-          <Button variant="danger" size="lg" onClick={handleEndSession}>
+          <Button variant="danger" onClick={handleEndSession}>
             Terminer la session
           </Button>
         </div>
