@@ -301,7 +301,7 @@ Brève description de ce que fait cette PR.
 
 ### Avant de signaler
 
-1. Vérifier que le bug n'est pas déjà signalé dans [Issues](https://github.com/votre-user/quiz-musical/issues)
+1. Vérifier que le bug n'est pas déjà signalé dans [Issues](https://github.com/Cailloux4520/quiz-musical/issues)
 2. Tester sur la dernière version
 3. Vérifier la console navigateur (F12) pour les erreurs
 
@@ -424,8 +424,8 @@ Les contributeurs sont listés dans :
 
 ### Où poser des questions ?
 
-- **Général** : [GitHub Discussions](https://github.com/votre-user/quiz-musical/discussions)
-- **Bug** : [GitHub Issues](https://github.com/votre-user/quiz-musical/issues)
+- **Général** : [GitHub Discussions](https://github.com/Cailloux4520/quiz-musical/discussions)
+- **Bug** : [GitHub Issues](https://github.com/Cailloux4520/quiz-musical/issues)
 - **Chat** : [Discord](https://discord.gg/quiz-musical)
 
 ### Besoin d'aide ?

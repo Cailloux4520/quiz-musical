@@ -64,7 +64,7 @@ Une seule commande pour tout installer :
 
 ```bash
 # Sur votre VPS Ubuntu 20.04
-wget https://raw.githubusercontent.com/votre-user/quiz-musical/main/scripts/install-full-auto.sh
+wget https://raw.githubusercontent.com/Cailloux4520/quiz-musical/main/scripts/install-full-auto.sh
 chmod +x install-full-auto.sh
 sudo ./install-full-auto.sh
 ```
@@ -158,7 +158,7 @@ Développé avec ❤️ pour les amateurs de musique et de quiz
 ## 📞 Support
 
 - **Email** : support@quiz-app.com
-- **GitHub Issues** : [Créer un ticket](https://github.com/votre-user/quiz-musical/issues)
+- **GitHub Issues** : [Créer un ticket](https://github.com/Cailloux4520/quiz-musical/issues)
 - **Discord** : [Rejoindre la communauté](https://discord.gg/quiz-musical)
 
 ---

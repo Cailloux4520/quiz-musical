@@ -17,7 +17,7 @@ Connectez-vous en SSH à votre VPS et exécutez :
 
 ```bash
 # Télécharger le script d'installation
-wget https://raw.githubusercontent.com/votre-user/quiz-musical/main/scripts/install-ubuntu.sh
+wget https://raw.githubusercontent.com/Cailloux4520/quiz-musical/main/scripts/install-ubuntu.sh
 
 # Rendre le script exécutable
 chmod +x install-ubuntu.sh
@@ -41,7 +41,7 @@ Le script va :
 su - quizapp
 
 # Cloner le repository
-git clone https://github.com/votre-user/quiz-musical.git
+git clone https://github.com/Cailloux4520/quiz-musical.git
 cd quiz-musical
 
 # Configurer le backend

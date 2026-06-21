@@ -148,7 +148,7 @@ Prochaines étapes :
    su - $APP_USER
 
 2. Clonez votre repository :
-   git clone https://github.com/votre-user/quiz-musical.git
+   git clone https://github.com/Cailloux4520/quiz-musical.git
    cd quiz-musical
 
 3. Configurez les fichiers .env avec les clés ci-dessus

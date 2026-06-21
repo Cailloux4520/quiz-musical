@@ -14,7 +14,7 @@ Avant de commencer, assurez-vous d'avoir installé :
 ### 1. Cloner le projet
 
 ```bash
-git clone https://github.com/votre-user/quiz-musical.git
+git clone https://github.com/Cailloux4520/quiz-musical.git
 cd quiz-musical
 ```
 
@@ -276,7 +276,7 @@ quiz-musical/
 
 - 📖 [Documentation complète](./docs/)
 - 💬 [Discord Community](https://discord.gg/quiz-musical)
-- 🐛 [Signaler un bug](https://github.com/votre-user/quiz-musical/issues)
+- 🐛 [Signaler un bug](https://github.com/Cailloux4520/quiz-musical/issues)
 - 📧 Email : support@quiz-app.com
 
 Bon développement ! 🎵

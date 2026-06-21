@@ -59,7 +59,7 @@ Bienvenue dans la documentation complète de **Quiz Musical** ! Cette page vous 
 
 1. [FAQ.md](FAQ.md) - Vérifiez les problèmes courants
 2. Logs : `pm2 logs quiz-backend`
-3. [Issues GitHub](https://github.com/votre-user/quiz-musical/issues)
+3. [Issues GitHub](https://github.com/Cailloux4520/quiz-musical/issues)
 
 ### Je veux contribuer
 
@@ -134,9 +134,9 @@ Bienvenue dans la documentation complète de **Quiz Musical** ! Cette page vous 
 ## 🆘 Besoin d'Aide ?
 
 1. **Question générale** → [FAQ.md](FAQ.md)
-2. **Problème technique** → [Issues GitHub](https://github.com/votre-user/quiz-musical/issues)
+2. **Problème technique** → [Issues GitHub](https://github.com/Cailloux4520/quiz-musical/issues)
 3. **Contribution** → [CONTRIBUTING.md](../CONTRIBUTING.md)
-4. **Discussion** → [GitHub Discussions](https://github.com/votre-user/quiz-musical/discussions)
+4. **Discussion** → [GitHub Discussions](https://github.com/Cailloux4520/quiz-musical/discussions)
 
 ## 📝 Note sur la Documentation
 

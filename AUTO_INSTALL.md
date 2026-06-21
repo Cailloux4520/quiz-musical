@@ -81,7 +81,7 @@ Le script va :
 
 ```bash
 # Sur votre VPS
-wget https://raw.githubusercontent.com/votre-user/quiz-musical/main/scripts/install-full-auto.sh
+wget https://raw.githubusercontent.com/Cailloux4520/quiz-musical/main/scripts/install-full-auto.sh
 chmod +x install-full-auto.sh
 sudo ./install-full-auto.sh
 

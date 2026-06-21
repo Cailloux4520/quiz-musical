@@ -78,7 +78,7 @@ su - quizapp
 
 ```bash
 cd ~
-git clone https://github.com/votre-user/quiz-musical.git
+git clone https://github.com/Cailloux4520/quiz-musical.git
 cd quiz-musical
 ```
 
