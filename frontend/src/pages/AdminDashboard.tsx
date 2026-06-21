@@ -19,7 +19,7 @@ export const AdminDashboard: React.FC = () => {
 
   const loadQuizzes = async () => {
     try {
-      const response = await api.get('/quiz');
+      const response = await api.get('/quizzes');
       setQuizzes(response.data.quizzes);
     } catch (error) {
       console.error('Erreur chargement quiz:', error);
@@ -37,7 +37,7 @@ export const AdminDashboard: React.FC = () => {
     if (!confirm('Êtes-vous sûr de vouloir supprimer ce quiz ?')) return;
 
     try {
-      await api.delete(`/quiz/${id}`);
+      await api.delete(`/quizzes/${id}`);
       deleteQuiz(id);
     } catch (error) {
       console.error('Erreur suppression quiz:', error);
