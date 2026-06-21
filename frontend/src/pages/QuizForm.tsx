@@ -57,11 +57,11 @@ const THEMES = [
     image: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=400&h=300&fit=crop&q=80'
   },
   { 
-    id: 'sport', 
-    name: 'Sport', 
-    icon: '⚽', 
-    color: 'from-green-600 to-teal-600',
-    image: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400&h=300&fit=crop&q=80'
+    id: 'autres', 
+    name: 'Autres', 
+    icon: '🎭', 
+    color: 'from-violet-500 to-fuchsia-500',
+    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&h=300&fit=crop&q=80'
   },
 ];
 
