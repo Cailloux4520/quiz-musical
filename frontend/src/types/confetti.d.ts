@@ -1,0 +1,54 @@
+// Type definitions for canvas-confetti
+declare module 'canvas-confetti' {
+  interface Options {
+    particleCount?: number;
+    angle?: number;
+    spread?: number;
+    startVelocity?: number;
+    decay?: number;
+    gravity?: number;
+    drift?: number;
+    ticks?: number;
+    origin?: {
+      x?: number;
+      y?: number;
+    };
+    colors?: string[];
+    shapes?: ('square' | 'circle')[];
+    scalar?: number;
+    zIndex?: number;
+    disableForReducedMotion?: boolean;
+  }
+
+  interface ConfettiFunction {
+    (options?: Options): Promise<null>;
+    reset(): void;
+  }
+
+  const confetti: ConfettiFunction;
+  export default confetti;
+}
+
+// Global confetti pour le script CDN
+declare const confetti: {
+  (options?: {
+    particleCount?: number;
+    angle?: number;
+    spread?: number;
+    startVelocity?: number;
+    decay?: number;
+    gravity?: number;
+    drift?: number;
+    ticks?: number;
+    origin?: {
+      x?: number;
+      y?: number;
+    };
+    colors?: string[];
+    shapes?: ('square' | 'circle')[];
+    scalar?: number;
+    zIndex?: number;
+    disableForReducedMotion?: boolean;
+  }): Promise<null>;
+  reset(): void;
+};
