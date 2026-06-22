@@ -127,11 +127,15 @@ function App() {
             path="/admin/session/new/:quizId"
             element={
               <ProtectedRoute>
+                <CreateSession />
+              </ProtectedRoute>
+            }
+          />
           
-          {/* Redirection par défaut */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Suspenseement={
+          {/* Écran maître pour le host (protégé) */}
+          <Route
+            path="/admin/game/:sessionId"
+            element={
               <ProtectedRoute>
                 <MasterGame />
               </ProtectedRoute>
@@ -147,15 +151,11 @@ function App() {
           
           {/* Page de résultats */}
           <Route path="/results/:sessionId" element={<ResultsPage />} />
+          
+          {/* Redirection par défaut */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
-    </BrowserRouter>
-  );
-}
-        
-        {/* Redirection par défaut */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
     </BrowserRouter>
   );
 }
