@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trophy, TrendingUp, TrendingDown, Minus, Crown } from 'lucide-react';
+import { Trophy, Crown } from 'lucide-react';
 
 interface Player {
   rank: number;
@@ -61,11 +61,11 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({
     return null;
   };
 
-  const getEvolutionIcon = (evolution?: 'up' | 'down' | 'same') => {
-    if (evolution === 'up') return <TrendingUp className="w-4 h-4 text-green-500" />;
-    if (evolution === 'down') return <TrendingDown className="w-4 h-4 text-red-500" />;
-    return <Minus className="w-4 h-4 text-gray-400" />;
-  };
+  // const getEvolutionIcon = (evolution?: 'up' | 'down' | 'same') => {
+  //   if (evolution === 'up') return <TrendingUp className="w-4 h-4 text-green-500" />;
+  //   if (evolution === 'down') return <TrendingDown className="w-4 h-4 text-red-500" />;
+  //   return <Minus className="w-4 h-4 text-gray-400" />;
+  // };
 
   return (
     <div className="space-y-6">

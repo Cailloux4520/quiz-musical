@@ -1,6 +1,6 @@
-# 🎵 Quiz Musical - Application de Quiz en Temps Réel
+# � MyQuiz - Application de Quiz en Temps Réel
 
-Application web de quiz musical en mode soirée, inspirée de Kahoot. Créez des quiz musicaux immersifs avec extraits audio, questions visuelles et thèmes personnalisables. Animez des sessions en direct avec classement en temps réel et exports professionnels !
+Application web de quiz interactif en mode soirée, inspirée de Kahoot. Créez des quiz immersifs avec extraits audio, vidéos, images et thèmes personnalisables. Animez des sessions en direct avec classement en temps réel et exports professionnels !
 
 ## ✨ Fonctionnalités Principales
 

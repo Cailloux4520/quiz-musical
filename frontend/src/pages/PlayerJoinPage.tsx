@@ -160,8 +160,8 @@ export const PlayerJoinPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center p-4">
       <Card className="max-w-md w-full">
         <div className="text-center mb-6">
-          <h1 className="text-4xl font-bold mb-2">🎵</h1>
-          <h2 className="text-2xl font-bold">Quiz Musical</h2>
+          <h1 className="text-4xl font-bold mb-2">�</h1>
+          <h2 className="text-2xl font-bold">MyQuiz</h2>
         </div>
 
         {inviteCode && (

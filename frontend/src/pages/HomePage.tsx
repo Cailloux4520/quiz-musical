@@ -11,10 +11,10 @@ export const HomePage: React.FC = () => {
       <div className="min-h-screen flex items-center justify-center p-4">
         <div className="text-center max-w-4xl">
           <h1 className="text-6xl md:text-8xl font-bold text-white mb-6">
-            🎵 Quiz Musical
+            � MyQuiz
           </h1>
           <p className="text-xl md:text-2xl text-white mb-12">
-            Créez des quiz musicaux immersifs et animez des soirées
+            Créez des quiz immersifs et animez des soirées
             inoubliables en temps réel
           </p>
 
@@ -22,8 +22,8 @@ export const HomePage: React.FC = () => {
             <Card className="text-left">
               <h3 className="text-2xl font-bold mb-3">🎨 Pour les Organisateurs</h3>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Créez vos quiz personnalisés avec extraits audio, images et
-                thèmes visuels. Animez la soirée depuis l'écran maître.
+                Créez vos quiz personnalisés avec médias, images et
+                thèmes variés. Animez la soirée depuis l'écran maître.
               </p>
               <Button onClick={() => navigate('/login')} className="w-full">
                 Espace Admin

@@ -11,60 +11,53 @@ import api from '../services/api';
 // Thèmes disponibles avec icônes et fonds d'écran
 const THEMES = [
   { 
-    id: 'annees80', 
-    name: 'Années 80', 
-    icon: '📼', 
-    color: 'from-pink-500 to-purple-500',
-    image: 'https://images.unsplash.com/photo-1563784462041-5f97ac9523dd?w=400&h=300&fit=crop&q=80'
+    id: 'musique', 
+    name: 'Musique', 
+    icon: '🎵', 
+    color: 'from-purple-600 via-pink-600 to-red-600',
+    image: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=1920&h=1080&fit=crop&q=80'
   },
   { 
-    id: 'annees90', 
-    name: 'Années 90', 
-    icon: '💿', 
-    color: 'from-cyan-500 to-blue-500',
-    image: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=400&h=300&fit=crop&q=80'
+    id: 'histoire', 
+    name: 'Histoire', 
+    icon: '📜', 
+    color: 'from-amber-600 via-orange-600 to-red-700',
+    image: 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=1920&h=1080&fit=crop&q=80'
   },
   { 
-    id: 'annees2000', 
-    name: 'Années 2000', 
-    icon: '📱', 
-    color: 'from-blue-500 to-indigo-500',
-    image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=300&fit=crop&q=80'
+    id: 'geographie', 
+    name: 'Géographie', 
+    icon: '🌍', 
+    color: 'from-green-600 via-teal-600 to-blue-600',
+    image: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=1920&h=1080&fit=crop&q=80'
   },
   { 
-    id: 'jeuxvideo', 
-    name: 'Jeux Vidéo', 
-    icon: '🎮', 
-    color: 'from-green-500 to-emerald-500',
-    image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&h=300&fit=crop&q=80'
+    id: 'culture_generale', 
+    name: 'Culture Générale', 
+    icon: '📚', 
+    color: 'from-indigo-600 via-purple-600 to-pink-600',
+    image: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1920&h=1080&fit=crop&q=80'
   },
   { 
     id: 'cinema', 
     name: 'Cinéma', 
     icon: '🎬', 
-    color: 'from-red-500 to-orange-500',
-    image: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400&h=300&fit=crop&q=80'
+    color: 'from-red-600 via-rose-600 to-pink-600',
+    image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1920&h=1080&fit=crop&q=80'
   },
   { 
-    id: 'series', 
+    id: 'series_tv', 
     name: 'Séries TV', 
     icon: '📺', 
-    color: 'from-purple-500 to-pink-500',
-    image: 'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=400&h=300&fit=crop&q=80'
+    color: 'from-blue-600 via-cyan-600 to-teal-600',
+    image: 'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=1920&h=1080&fit=crop&q=80'
   },
   { 
-    id: 'manga', 
-    name: 'Manga/Anime', 
+    id: 'anime_manga', 
+    name: 'Animé/Manga', 
     icon: '🎌', 
-    color: 'from-red-500 to-pink-500',
-    image: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=400&h=300&fit=crop&q=80'
-  },
-  { 
-    id: 'autres', 
-    name: 'Autres', 
-    icon: '🎭', 
-    color: 'from-violet-500 to-fuchsia-500',
-    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&h=300&fit=crop&q=80'
+    color: 'from-pink-600 via-purple-600 to-indigo-600',
+    image: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1920&h=1080&fit=crop&q=80'
   },
 ];
 
@@ -79,7 +72,7 @@ export const QuizForm: React.FC = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    theme: 'annees80',
+    theme: 'musique',
   });
   const [questions, setQuestions] = useState<Question[]>([]);
 

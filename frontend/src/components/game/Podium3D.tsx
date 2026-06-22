@@ -16,7 +16,7 @@ interface Podium3DProps {
   type?: 'players' | 'teams';
 }
 
-export const Podium3D: React.FC<Podium3DProps> = ({ top3, type = 'players' }) => {
+export const Podium3D: React.FC<Podium3DProps> = ({ top3 }) => {
   const [first, second, third] = top3;
 
   // Animations d'apparition

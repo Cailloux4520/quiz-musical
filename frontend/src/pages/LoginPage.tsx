@@ -33,7 +33,7 @@ export const LoginPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center p-4">
       <Card className="max-w-md w-full">
         <h1 className="text-3xl font-bold mb-6 text-center">
-          🎵 Quiz Musical
+          � MyQuiz
         </h1>
         <h2 className="text-xl font-semibold mb-6 text-center">
           Connexion Admin

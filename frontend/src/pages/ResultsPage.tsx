@@ -276,8 +276,8 @@ export const ResultsPage: React.FC = () => {
     );
   }
 
-  const topPlayer = results.top3Players[0];
-  const topTeam = results.top3Teams.length > 0 ? results.top3Teams[0] : null;
+  // const topPlayer = results.top3Players[0];
+  // const topTeam = results.top3Teams.length > 0 ? results.top3Teams[0] : null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-600 to-blue-600 p-4 py-8">
@@ -348,8 +348,7 @@ export const ResultsPage: React.FC = () => {
           </div>
 
           <Podium3D
-            top3={showTeams ? results.top3Teams : results.top3Players}
-            type={showTeams ? 'teams' : 'players'}
+            top3={showTeams ? results.top3Teams as any : results.top3Players as any}
           />
 
           {/* Boutons de basculement */}

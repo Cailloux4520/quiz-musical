@@ -1,4 +1,4 @@
-# 🚀 Plan d'Amélioration - Quiz Musical
+# 🚀 Plan d'Amélioration - MyQuiz
 
 ## 🎯 Améliorations Prioritaires (Quick Wins)
 
