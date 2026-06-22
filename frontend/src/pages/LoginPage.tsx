@@ -4,6 +4,7 @@ import { useAuthStore } from '../store/authStore';
 import { Card } from '../components/common/Card';
 import { Input } from '../components/common/Input';
 import { Button } from '../components/common/Button';
+import logoSvg from '../assets/logo.svg';
 
 export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -32,9 +33,12 @@ export const LoginPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center p-4">
       <Card className="max-w-md w-full">
-        <h1 className="text-3xl font-bold mb-6 text-center">
-          � MyQuiz
-        </h1>
+        <div className="flex items-center justify-center gap-3 mb-6">
+          <img src={logoSvg} alt="MyQuiz Logo" className="w-12 h-12" />
+          <h1 className="text-3xl font-bold">
+            MyQuiz
+          </h1>
+        </div>
         <h2 className="text-xl font-semibold mb-6 text-center">
           Connexion Admin
         </h2>
@@ -72,10 +76,6 @@ export const LoginPage: React.FC = () => {
             {loading ? 'Connexion...' : 'Se connecter'}
           </Button>
         </form>
-
-        <div className="mt-6 text-center text-sm text-gray-600">
-          <p>Compte démo : admin@quiz.com / admin123</p>
-        </div>
       </Card>
     </div>
   );

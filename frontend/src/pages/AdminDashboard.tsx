@@ -10,7 +10,6 @@ import logoSvg from '../assets/logo.svg';
 export const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
   const logout = useAuthStore((state) => state.logout);
-  const user = useAuthStore((state) => state.user);
   const { quizzes, setQuizzes, deleteQuiz } = useQuizStore();
   const [loading, setLoading] = useState(true);
 
@@ -56,9 +55,6 @@ export const AdminDashboard: React.FC = () => {
               <h1 className="text-2xl font-bold">MyQuiz</h1>
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600 dark:text-gray-400">
-                {user?.name}
-              </span>
               <Button variant="secondary" onClick={handleLogout}>
                 Déconnexion
               </Button>

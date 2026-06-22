@@ -6,6 +6,7 @@ import { Button } from '../components/common/Button';
 import { Users, UserPlus, User } from 'lucide-react';
 import api from '../services/api';
 import socket from '../services/socket';
+import logoSvg from '../assets/logo.svg';
 
 interface Team {
   id: string;
@@ -159,8 +160,8 @@ export const PlayerJoinPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center p-4">
       <Card className="max-w-md w-full">
-        <div className="text-center mb-6">
-          <h1 className="text-4xl font-bold mb-2">�</h1>
+        <div className="flex flex-col items-center mb-6">
+          <img src={logoSvg} alt="MyQuiz Logo" className="w-16 h-16 mb-2" />
           <h2 className="text-2xl font-bold">MyQuiz</h2>
         </div>
 
