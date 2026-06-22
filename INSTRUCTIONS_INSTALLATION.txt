@@ -1,0 +1,119 @@
+══════════════════════════════════════════════════════════════
+  🚀 INSTALLATION QUIZ MUSICAL SUR HOSTINGER VPS
+══════════════════════════════════════════════════════════════
+
+VPS IP: 82.29.169.117
+Domaine: recalbox.live
+Mot de passe: P@ssw0rd6238261169
+
+══════════════════════════════════════════════════════════════
+  📋 ÉTAPES D'INSTALLATION
+══════════════════════════════════════════════════════════════
+
+ÉTAPE 1: Ouvrir un nouveau terminal
+────────────────────────────────────
+
+Windows: 
+  - Appuyez sur Win+R
+  - Tapez: powershell
+  - Ou utilisez Git Bash
+
+Mac/Linux:
+  - Ouvrez Terminal
+
+
+ÉTAPE 2: Se connecter au VPS
+────────────────────────────────────
+
+Copiez-collez cette commande:
+
+ssh root@82.29.169.117
+
+Quand demandé, entrez le mot de passe:
+P@ssw0rd6238261169
+
+Si vous voyez un avertissement "fingerprint", tapez: yes
+
+
+ÉTAPE 3: Lancer l'installation automatique
+────────────────────────────────────────────
+
+Une fois connecté au VPS (vous verrez root@... #), 
+copiez-collez ces 3 commandes UNE PAR UNE:
+
+wget https://raw.githubusercontent.com/Cailloux4520/quiz-musical/main/scripts/install-full-auto.sh
+
+chmod +x install-full-auto.sh
+
+sudo ./install-full-auto.sh
+
+
+⏱️  L'installation prendra 10-15 minutes.
+Ne fermez PAS le terminal pendant l'installation!
+
+
+ÉTAPE 4: Vérification
+────────────────────────────────────
+
+Une fois l'installation terminée, vous verrez:
+
+✅ Installation completed successfully!
+
+Vous pouvez fermer le terminal SSH (tapez: exit)
+
+
+══════════════════════════════════════════════════════════════
+  🌐 ACCÈS À L'APPLICATION
+══════════════════════════════════════════════════════════════
+
+URL Production:
+  https://recalbox.live
+  http://82.29.169.117
+
+Login Administrateur:
+  Email: admin@quiz.com
+  Mot de passe: admin123
+
+⚠️  CHANGEZ le mot de passe admin après la première connexion!
+
+
+══════════════════════════════════════════════════════════════
+  🔒 ACTIVER SSL (HTTPS) - OPTIONNEL
+══════════════════════════════════════════════════════════════
+
+Si vous voulez activer HTTPS sur recalbox.live:
+
+1. Reconnectez-vous en SSH (même commande qu'ÉTAPE 2)
+
+2. Copiez-collez:
+
+sudo apt install -y certbot python3-certbot-nginx
+sudo certbot --nginx -d recalbox.live -d www.recalbox.live
+
+3. Suivez les instructions de Certbot
+   (entrez votre email, acceptez les conditions)
+
+
+══════════════════════════════════════════════════════════════
+  🆘 EN CAS DE PROBLÈME
+══════════════════════════════════════════════════════════════
+
+Vérifier que le backend tourne:
+  ssh root@82.29.169.117
+  pm2 status
+
+Redémarrer le backend:
+  pm2 restart quiz-backend
+
+Voir les logs:
+  pm2 logs quiz-backend
+
+Guide complet:
+  Voir HOSTINGER_DEPLOYMENT.md dans le projet
+
+
+══════════════════════════════════════════════════════════════
+
+Bon déploiement! 🎵🎮
+
+══════════════════════════════════════════════════════════════

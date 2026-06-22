@@ -14,6 +14,7 @@ const CreateSession = lazy(() => import('./pages/CreateSession').then(m => ({ de
 const MasterGame = lazy(() => import('./pages/MasterGame').then(m => ({ default: m.MasterGame })));
 const PlayerGame = lazy(() => import('./pages/PlayerGame').then(m => ({ default: m.PlayerGame })));
 const MediaLibrary = lazy(() => import('./pages/MediaLibrary').then(m => ({ default: m.MediaLibrary })));
+const ThemeManager = lazy(() => import('./components/admin/ThemeManager').then(m => ({ default: m.ThemeManager })));
 const ResultsPage = lazy(() => import('./pages/ResultsPage').then(m => ({ default: m.ResultsPage })));
 
 // Composant de chargement pour le Suspense
@@ -118,6 +119,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <MediaLibrary />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/themes"
+            element={
+              <ProtectedRoute>
+                <ThemeManager />
               </ProtectedRoute>
             }
           />

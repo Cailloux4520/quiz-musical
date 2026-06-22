@@ -1,0 +1,10 @@
+{
+  "jest.autoRun": "off",
+  "jest.showCoverageOnLoad": false,
+  "jest.runMode": "on-demand",
+  "jest.enable": false,
+  "jest.outputConfig": {
+    "revealWithFocus": "none"
+  },
+  "testing.automaticallyOpenTestResults": "neverOpen"
+}

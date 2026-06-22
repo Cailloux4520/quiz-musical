@@ -74,6 +74,9 @@ export const AdminDashboard: React.FC = () => {
             <Button variant="secondary" onClick={() => navigate('/admin/media')}>
               📁 Médiathèque
             </Button>
+            <Button variant="secondary" onClick={() => navigate('/admin/themes')}>
+              🎨 Thèmes
+            </Button>
             <Button onClick={() => navigate('/admin/quiz/new')}>
               + Nouveau Quiz
             </Button>
