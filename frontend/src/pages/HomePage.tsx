@@ -10,9 +10,12 @@ export const HomePage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
       <div className="min-h-screen flex items-center justify-center p-4">
         <div className="text-center max-w-4xl">
-          <h1 className="text-6xl md:text-8xl font-bold text-white mb-6">
-            � MyQuiz
-          </h1>
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <span className="text-6xl md:text-7xl">❓</span>
+            <h1 className="text-6xl md:text-8xl font-bold text-white">
+              MyQuiz
+            </h1>
+          </div>
           <p className="text-xl md:text-2xl text-white mb-12">
             Créez des quiz immersifs et animez des soirées
             inoubliables en temps réel
@@ -44,6 +47,10 @@ export const HomePage: React.FC = () => {
 
           <div className="text-white text-sm">
             <p>✨ Sans inscription • ⚡ Temps réel • 📱 Multi-appareils</p>
+          </div>
+
+          <div className="mt-12 text-white text-sm opacity-70">
+            <p>Création by Cailloux - 2026</p>
           </div>
         </div>
       </div>

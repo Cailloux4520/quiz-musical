@@ -1,0 +1,74 @@
+#!/usr/bin/expect -f
+# Script expect pour déployer les changements sur le VPS
+
+set timeout 300
+set password "P@ssw0rd6238261169"
+set ip "82.29.169.117"
+
+puts "\n=========================================="
+puts "  Déploiement MyQuiz sur VPS"
+puts "  VPS: $ip"
+puts "==========================================\n"
+
+# Connexion SSH
+spawn ssh -o StrictHostKeyChecking=no root@$ip
+
+# Attendre le prompt de mot de passe
+expect {
+    "password:" {
+        send "$password\r"
+    }
+    "yes/no" {
+        send "yes\r"
+        exp_continue
+    }
+}
+
+# Attendre le shell prompt
+expect {
+    "#" {}
+    "$" {}
+}
+
+puts "\n📥 Git pull...\n"
+send "cd /home/quizapp/quiz-musical && git pull origin main\r"
+expect {
+    "#" {}
+    "$" {}
+}
+
+puts "\n🔄 Mise à jour base de données...\n"
+send "cd /home/quizapp/quiz-musical/backend && npx prisma db push\r"
+expect {
+    "#" {}
+    "$" {}
+    timeout { puts "Timeout prisma db push" }
+}
+
+puts "\n♻️  Redémarrage backend...\n"
+send "pm2 restart quiz-backend\r"
+expect {
+    "#" {}
+    "$" {}
+}
+
+puts "\n📦 Installation dépendances frontend...\n"
+send "cd /home/quizapp/quiz-musical/frontend && npm install\r"
+expect {
+    "#" {}
+    "$" {}
+    timeout { puts "Timeout npm install" }
+}
+
+puts "\n🏗️  Build frontend...\n"
+send "npm run build\r"
+expect {
+    "#" {}
+    "$" {}
+    timeout { puts "Timeout npm build" }
+}
+
+puts "\n✅ DEPLOIEMENT TERMINE!\n"
+
+send "exit\r"
+expect eof

@@ -31,7 +31,7 @@ model Quiz {
   id                      String   @id @default(uuid())
   title                   String
   description             String?
-  theme                   String   @default("musique") // "musique", "histoire", "geographie", "culture_generale", "cinema", "series_tv", "anime_manga"
+  theme                   String   @default("musique") // "musique", "histoire", "geographie", "culture_generale", "cinema", "series_tv", "anime_manga", "divers"
   defaultTimePerQuestion  Int      @default(30) // Temps par défaut en secondes
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt

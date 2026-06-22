@@ -59,6 +59,13 @@ const THEMES = [
     color: 'from-pink-600 via-purple-600 to-indigo-600',
     image: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1920&h=1080&fit=crop&q=80'
   },
+  { 
+    id: 'divers', 
+    name: 'Divers', 
+    icon: '🎭', 
+    color: 'from-violet-600 via-fuchsia-600 to-pink-600',
+    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1920&h=1080&fit=crop&q=80'
+  },
 ];
 
 export const QuizForm: React.FC = () => {

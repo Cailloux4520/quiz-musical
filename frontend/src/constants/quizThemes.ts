@@ -63,6 +63,14 @@ export const QUIZ_THEMES: QuizTheme[] = [
     gradient: 'from-pink-600 via-purple-600 to-indigo-600',
     backgroundImage: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1920',
     description: 'Quiz sur les animés japonais et mangas'
+  },
+  {
+    id: 'divers',
+    name: 'Divers',
+    icon: '🎭',
+    gradient: 'from-violet-600 via-fuchsia-600 to-pink-600',
+    backgroundImage: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1920',
+    description: 'Quiz variés sur différents sujets'
   }
 ];
 
