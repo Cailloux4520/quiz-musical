@@ -50,14 +50,19 @@ npm install
 npm run dev
 ```
 
-### Déploiement sur VPS Ubuntu
+### 🌐 Déploiement sur VPS
 
-#### 🚀 Installation Automatique (Recommandé)
+#### 🔥 Hostinger VPS (Guide Complet)
+
+Guide spécifique avec DNS, SSL et spécificités Hostinger :
+**[📘 Guide Hostinger Complet](HOSTINGER_DEPLOYMENT.md)**
+
+#### 🚀 Installation Automatique Ubuntu (Recommandé)
 
 Une seule commande pour tout installer :
 
 ```bash
-# Sur votre VPS Ubuntu 20.04
+# Sur votre VPS Ubuntu 20.04/22.04
 wget https://raw.githubusercontent.com/Cailloux4520/quiz-musical/main/scripts/install-full-auto.sh
 chmod +x install-full-auto.sh
 sudo ./install-full-auto.sh
@@ -70,6 +75,7 @@ Suivez les instructions : [AUTO_INSTALL.md](AUTO_INSTALL.md)
 Guides détaillés :
 - [Guide complet](docs/DEPLOYMENT_UBUNTU.md) - Toutes les étapes détaillées
 - [Guide rapide](DEPLOYMENT_QUICK.md) - Installation pas à pas
+- [🔥 Guide Hostinger](HOSTINGER_DEPLOYMENT.md) - Spécifique Hostinger VPS
 ```
 
 ### Accès
