@@ -5,6 +5,7 @@ import { useQuizStore } from '../store/quizStore';
 import { Card } from '../components/common/Card';
 import { Button } from '../components/common/Button';
 import api from '../services/api';
+import logoSvg from '../assets/logo.svg';
 
 export const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -50,7 +51,10 @@ export const AdminDashboard: React.FC = () => {
       <header className="bg-white dark:bg-gray-800 shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">� MyQuiz</h1>
+            <div className="flex items-center gap-3">
+              <img src={logoSvg} alt="MyQuiz Logo" className="w-8 h-8" />
+              <h1 className="text-2xl font-bold">MyQuiz</h1>
+            </div>
             <div className="flex items-center gap-4">
               <span className="text-sm text-gray-600 dark:text-gray-400">
                 {user?.name}

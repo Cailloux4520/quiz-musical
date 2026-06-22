@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/common/Button';
 import { Card } from '../components/common/Card';
+import logoSvg from '../assets/logo.svg';
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ export const HomePage: React.FC = () => {
       <div className="min-h-screen flex items-center justify-center p-4">
         <div className="text-center max-w-4xl">
           <div className="flex items-center justify-center gap-4 mb-6">
-            <span className="text-6xl md:text-7xl">❓</span>
+            <img src={logoSvg} alt="MyQuiz Logo" className="w-20 h-20 md:w-28 md:h-28" />
             <h1 className="text-6xl md:text-8xl font-bold text-white">
               MyQuiz
             </h1>
