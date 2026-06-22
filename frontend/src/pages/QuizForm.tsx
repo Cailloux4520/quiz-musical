@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { Card } from '../components/common/Card';
 import { Input } from '../components/common/Input';
 import { Button } from '../components/common/Button';
@@ -104,7 +105,7 @@ export const QuizForm: React.FC = () => {
       }
     } catch (error) {
       console.error('Erreur chargement quiz:', error);
-      alert('Erreur lors du chargement du quiz');
+      toast.error('Erreur lors du chargement du quiz');
     }
   };
 
@@ -123,15 +124,15 @@ export const QuizForm: React.FC = () => {
 
       if (isEdit) {
         await api.put(`/quiz/${id}`, payload);
-        alert('Quiz modifié avec succès !');
+        toast.success('🎵 Quiz modifié avec succès !');
       } else {
         await api.post('/quiz', payload);
-        alert('Quiz créé avec succès !');
+        toast.success('🎉 Quiz créé avec succès !');
       }
       navigate('/admin');
     } catch (error: any) {
       console.error('Erreur:', error);
-      alert(error.response?.data?.error || 'Une erreur est survenue');
+      toast.error(error.response?.data?.error || 'Une erreur est survenue');
     } finally {
       setLoading(false);
     }
@@ -142,7 +143,7 @@ export const QuizForm: React.FC = () => {
     if (!file || !id) return;
 
     if (!file.name.endsWith('.xlsx') && !file.name.endsWith('.xls')) {
-      alert('Veuillez sélectionner un fichier Excel (.xlsx ou .xls)');
+      toast.error('Veuillez sélectionner un fichier Excel (.xlsx ou .xls)');
       return;
     }
 
@@ -158,22 +159,22 @@ export const QuizForm: React.FC = () => {
       });
 
       const result = response.data;
-      let message = `Import terminé !\n${result.success} question(s) importée(s)`;
+      let message = `Import terminé ! ${result.success} question(s) importée(s)`;
       
       if (result.errors && result.errors.length > 0) {
-        message += `\n\nErreurs (${result.errors.length}):\n${result.errors.slice(0, 5).join('\n')}`;
-        if (result.errors.length > 5) {
-          message += `\n... et ${result.errors.length - 5} autre(s) erreur(s)`;
-        }
+        const errorPreview = result.errors.slice(0, 3).join(', ');
+        toast.error(`${message}. Erreurs: ${errorPreview}${result.errors.length > 3 ? '...' : ''}`, {
+          duration: 6000,
+        });
+      } else {
+        toast.success(message);
       }
-
-      alert(message);
       
       // Recharger le quiz pour voir les nouvelles questions
       await loadQuiz();
     } catch (error: any) {
       console.error('Erreur import:', error);
-      alert(error.response?.data?.error || 'Erreur lors de l\'import');
+      toast.error(error.response?.data?.error || 'Erreur lors de l\'import');
     } finally {
       setImportLoading(false);
       // Reset file input
@@ -185,7 +186,7 @@ export const QuizForm: React.FC = () => {
 
   const handleExportExcel = async () => {
     if (!id) {
-      alert('Veuillez d\'abord enregistrer le quiz');
+      toast.error('Veuillez d\'abord enregistrer le quiz');
       return;
     }
 
@@ -203,9 +204,10 @@ export const QuizForm: React.FC = () => {
       link.click();
       link.remove();
       window.URL.revokeObjectURL(url);
+      toast.success('💾 Fichier Excel exporté');
     } catch (error: any) {
       console.error('Erreur export:', error);
-      alert('Erreur lors de l\'export');
+      toast.error('Erreur lors de l\'export');
     }
   };
 

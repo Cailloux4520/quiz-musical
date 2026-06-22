@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { Card } from '../components/common/Card';
 import { Button } from '../components/common/Button';
 import { Input } from '../components/common/Input';
@@ -91,13 +92,13 @@ export const MediaLibrary: React.FC = () => {
       const isImage = file.type.startsWith('image/');
       
       if (!isAudio && !isImage) {
-        alert(`${file.name}: Format non supporté`);
+        toast.error(`${file.name}: Format non supporté`);
         continue;
       }
 
       const maxSize = isAudio ? 20 * 1024 * 1024 : 5 * 1024 * 1024; // 20MB audio, 5MB image
       if (file.size > maxSize) {
-        alert(`${file.name}: Fichier trop volumineux (max ${isAudio ? '20MB' : '5MB'})`);
+        toast.error(`${file.name}: Fichier trop volumineux (max ${isAudio ? '20MB' : '5MB'})`);
         continue;
       }
 
@@ -107,8 +108,9 @@ export const MediaLibrary: React.FC = () => {
         await api.post('/media/upload', formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
+        toast.success(`✅ ${file.name} uploadé`);
       } catch (error: any) {
-        alert(`Erreur upload ${file.name}: ${error.response?.data?.error || error.message}`);
+        toast.error(`Erreur upload ${file.name}: ${error.response?.data?.error || error.message}`);
       }
 
       formData.delete('file');
@@ -145,9 +147,10 @@ export const MediaLibrary: React.FC = () => {
 
     try {
       await api.delete(`/media/${id}`);
+      toast.success('🗑️ Média supprimé');
       loadMedia();
     } catch (error: any) {
-      alert(`Erreur suppression: ${error.response?.data?.error || error.message}`);
+      toast.error(`Erreur suppression: ${error.response?.data?.error || error.message}`);
     }
   };
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { Card } from '../components/common/Card';
 import { Button } from '../components/common/Button';
 import api from '../services/api';
@@ -23,7 +24,7 @@ export const CreateSession: React.FC = () => {
       setQuiz(response.data.quiz);
     } catch (error) {
       console.error('Erreur chargement quiz:', error);
-      alert('Quiz non trouvé');
+      toast.error('Quiz non trouvé');
       navigate('/admin');
     }
   };
@@ -33,9 +34,10 @@ export const CreateSession: React.FC = () => {
     try {
       const response = await api.post('/session', { quizId });
       setSession(response.data.session);
+      toast.success('🎉 Session créée avec succès !');
     } catch (error: any) {
       console.error('Erreur création session:', error);
-      alert(error.response?.data?.error || 'Erreur lors de la création de la session');
+      toast.error(error.response?.data?.error || 'Erreur lors de la création de la session');
       setLoading(false);
     }
   };

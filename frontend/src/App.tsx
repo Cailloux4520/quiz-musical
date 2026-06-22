@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from './store/authStore';
 
 // Lazy loading des pages pour optimiser le chargement initial
@@ -39,6 +40,30 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 function App() {
   return (
     <BrowserRouter>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+          success: {
+            duration: 3000,
+            iconTheme: {
+              primary: '#10b981',
+              secondary: '#fff',
+            },
+          },
+          error: {
+            duration: 5000,
+            iconTheme: {
+              primary: '#ef4444',
+              secondary: '#fff',
+            },
+          },
+        }}
+      />
       <Suspense fallback={<PageLoader />}>
         <Routes>
           {/* Page d'accueil */}
@@ -102,15 +127,11 @@ function App() {
             path="/admin/session/new/:quizId"
             element={
               <ProtectedRoute>
-                <CreateSession />
-              </ProtectedRoute>
-            }
-          />
           
-          {/* Écran maître de jeu (protégé) */}
-          <Route
-            path="/master/:sessionId"
-            element={
+          {/* Redirection par défaut */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspenseement={
               <ProtectedRoute>
                 <MasterGame />
               </ProtectedRoute>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { Card } from '../components/common/Card';
 import { Leaderboard } from '../components/game/Leaderboard';
 import { Podium3D } from '../components/game/Podium3D';
@@ -171,9 +172,10 @@ export const ResultsPage: React.FC = () => {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
+      toast.success('💾 Fichier CSV téléchargé');
     } catch (error) {
       console.error('Erreur téléchargement CSV:', error);
-      alert('Erreur lors du téléchargement du fichier CSV');
+      toast.error('Erreur lors du téléchargement du fichier CSV');
     }
   };
 
@@ -204,9 +206,10 @@ export const ResultsPage: React.FC = () => {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
+      toast.success('📊 Fichier Excel téléchargé');
     } catch (error) {
       console.error('Erreur téléchargement Excel:', error);
-      alert('Erreur lors du téléchargement du fichier Excel');
+      toast.error('Erreur lors du téléchargement du fichier Excel');
     }
   };
 
@@ -237,9 +240,10 @@ export const ResultsPage: React.FC = () => {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
+      toast.success('📄 Fichier PDF téléchargé');
     } catch (error) {
       console.error('Erreur téléchargement PDF:', error);
-      alert('Erreur lors du téléchargement du fichier PDF');
+      toast.error('Erreur lors du téléchargement du fichier PDF');
     }
   };
 
